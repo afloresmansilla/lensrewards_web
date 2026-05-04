@@ -27,7 +27,6 @@
     .lead{font-size:19px;line-height:1.6;color:#c7d2ea;margin:0 0 30px}.actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:17px 22px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft)}
     .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff}.btn-secondary{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.18);color:#fff;box-shadow:none}
-    .trust{display:flex;gap:15px;flex-wrap:wrap;color:#d8e1f7;font-size:14px}.trust span{display:inline-flex;gap:7px;align-items:center}
     .visual{position:relative;min-height:500px;display:flex;justify-content:flex-end;align-items:flex-start}
     .browser{position:relative;right:auto;top:auto;width:min(790px,100%);border-radius:18px;background:#fff;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.18)}
     .bar{height:40px;background:#1c2334;display:flex;align-items:center;padding:0 14px;gap:10px;color:#7f8aa4;font-size:13px}.dot{width:10px;height:10px;border-radius:50%;background:#ff5f57}.dot.y{background:#ffbd2e}.dot.g{background:#28c840}.url{margin-left:12px;background:#2a3145;border-radius:999px;padding:7px 110px 7px 14px;color:#97a1b9}.screen{display:block;width:100%;height:auto}
@@ -65,7 +64,27 @@
     .lang-switch select:hover{border-color:rgba(219,230,255,.45)}
     .lang-switch select:focus{outline:none;border-color:#6e92ff;box-shadow:0 0 0 3px rgba(110,146,255,.22)}
     @media(max-width:980px){.hero-grid{grid-template-columns:1fr}.visual{min-height:430px}.browser{position:relative;right:auto;width:100%}.steps,.cards,.feature,.withdraw,.proof-grid,.proof-stats,.research-layout{grid-template-columns:1fr}.arrow{display:none}h1{font-size:46px}.nav{display:none}.hero{min-height:auto}.feature,.withdraw{display:block}.step{min-height:auto}.step h3{font-size:28px}.step p{font-size:17px}.research-main h2{font-size:30px}}
-    @media(max-width:600px){.wrap{width:min(100% - 24px,1180px)}h1{font-size:40px}.hero-grid{padding-top:10px}.visual{min-height:auto}.section h2{font-size:29px}.big{font-size:38px}.actions .btn{width:100%}.cards{padding-bottom:34px}.research-main,.research-side{padding:22px}.research-main h2{font-size:28px}.research-main p{font-size:17px}}
+    @media(max-width:600px){
+      .wrap{width:min(100% - 24px,1180px)}
+      header{padding:20px 0 12px}
+      .logo{font-size:22px}
+      .pill{font-size:13px;padding:8px 12px}
+      h1{font-size:40px;line-height:1.02;margin:22px 0 16px}
+      .lead{font-size:19px;line-height:1.5;margin-bottom:20px}
+      .hero-grid{padding:8px 0 40px;gap:20px}
+      .actions{margin-bottom:18px;gap:10px}
+      .actions .btn{width:100%;padding:15px 18px}
+      .visual{min-height:auto}
+      .browser{border-radius:14px}
+      .bar{height:34px;padding:0 10px}
+      .url{padding:6px 10px;font-size:12px;max-width:66vw;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+      .section h2{font-size:29px}
+      .big{font-size:38px}
+      .cards{padding-bottom:34px}
+      .research-main,.research-side{padding:22px}
+      .research-main h2{font-size:28px}
+      .research-main p{font-size:17px}
+    }
   </style>
 </head>
 <body>
@@ -74,7 +93,7 @@
       <div class="wrap">
         <header><a class="logo" href="#"><span>Lens<span>Rewards</span></span></a><nav class="nav"><a href="#funciona">Cómo funciona</a><a href="#faq">FAQ</a><a class="ghost" href="#descarga">Añadir a Chrome</a></nav></header>
         <div class="hero-grid">
-          <div><div class="pill">⭐ Gana recompensas por tus tareas online</div><h1>Completa misiones.<br><span class="blue">Gana</span> puntos.<br><span class="green">Canjea</span> recompensas.</h1><p class="lead">Realiza tareas, completa misiones y acumula puntos que puedes canjear por recompensas.</p><div class="actions"><a class="btn btn-primary" href="#descarga">🌐 Añadir a Chrome</a><a class="btn btn-secondary" href="#funciona">▷ Ver cómo funciona</a></div><div class="trust"><span>🛡️ Sin coste para el usuario</span><span>✅ Nunca se completa una compra</span><span>⚡ Participación guiada</span></div></div>
+          <div><div class="pill">⭐ Gana recompensas por tus tareas online</div><h1>Completa misiones.<br><span class="blue">Gana</span> puntos.<br><span class="green">Canjea</span> recompensas.</h1><p class="lead">Realiza tareas, completa misiones y acumula puntos que puedes canjear por recompensas.</p><div class="actions"><a class="btn btn-primary" href="#descarga">🌐 Añadir a Chrome</a></div></div>
           <div class="visual"><div class="browser"><div class="bar"><span class="dot"></span><span class="dot y"></span><span class="dot g"></span><span class="url">app.lensrewards.com/dashboard</span></div><img class="screen" src="assets/dashboard.png" alt="Panel de usuario LensRewards con puntos y misiones"></div></div>
         </div>
       </div>
