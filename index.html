@@ -45,10 +45,11 @@
     .research-main p{margin:0 0 14px;font-size:18px;line-height:1.6;color:#20304f}
     .research p:last-child{margin-bottom:0}
     .research-side{background:linear-gradient(135deg,#eef3ff,#ffffff);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow-soft)}
-    .research-side h3{margin:0 0 12px;font-size:22px;letter-spacing:-.02em}
-    .research-side ul{list-style:none;margin:0;padding:0;display:grid;gap:11px;color:#2b3955}
-    .research-side li{display:flex;align-items:center;gap:10px;font-weight:700}
-    .research-side li::before{content:"✓";display:inline-grid;place-items:center;flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;font-size:12px;font-weight:900;box-shadow:0 6px 14px rgba(16,185,129,.3)}
+    .research-side h3{margin:0 0 14px;font-size:22px;letter-spacing:-.02em}
+    .research-side-lead{margin:0 0 16px;font-size:17px;line-height:1.65;font-weight:500;color:#243652;letter-spacing:-.012em}
+    .research-side-lead strong{font-weight:800;color:#152238}
+    .research-side-text{margin:0;padding:20px 22px 22px 26px;font-size:17px;line-height:1.68;font-weight:500;color:#1a2d4d;letter-spacing:-.015em;background:rgba(255,255,255,.75);border-radius:16px;border:1px solid rgba(47,98,255,.12);border-left:4px solid #2f62ff;box-shadow:0 10px 28px rgba(15,31,80,.07)}
+    .research-side-text strong{font-weight:800;color:#0c1830}
     .cards{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;padding:22px 0 86px}.feature{border-radius:22px;padding:36px;background:linear-gradient(135deg,#eef1ff,#fff);border:1px solid var(--line);box-shadow:var(--shadow-soft);display:grid;grid-template-columns:1fr 220px;gap:28px;align-items:center;min-height:300px}.feature h2,.withdraw h2{text-align:left;margin:0 0 20px;font-size:32px;letter-spacing:-.04em}.feature h2 span{color:var(--blue)}
     .points-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-soft);display:inline-block}.label{font-size:13px;font-weight:900;color:#758199;letter-spacing:.08em}.big{font-size:48px;font-weight:950;letter-spacing:-.06em;background:#d7f8ec;border-radius:12px;padding:8px 12px;margin:8px 0}.usd{font-weight:800;color:#586985}
     .feature ul,.withdraw ul{list-style:none;margin:0;padding:0;display:grid;gap:14px;color:#293650}.feature li::before,.withdraw li::before{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;background:#10b981;color:#fff;border-radius:50%;font-size:13px;margin-right:10px;font-weight:900}
@@ -56,7 +57,7 @@
     .proof{padding:10px 0 62px}.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.proof-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow-soft)}.proof-card h3{margin:0 0 14px;font-size:24px;letter-spacing:-.03em}.proof-card p{margin:0;color:var(--muted);line-height:1.55}.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.stat{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--soft)}.stat strong{display:block;font-size:22px;letter-spacing:-.03em}.stat span{font-size:13px;color:#69758e}
     .security-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}.security-list li{display:flex;gap:10px;align-items:flex-start;color:#2b3955}.security-list li::before{content:"🛡️";line-height:1}
     .faq{padding:20px 0 72px}.faq-wrap{width:min(920px,calc(100% - 40px));margin:0 auto}.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-soft)}.faq summary{cursor:pointer;font-weight:800;color:#172643}.faq details p{margin:10px 0 2px;color:var(--muted);line-height:1.55}
-    .final{background:var(--navy);color:#fff;padding:54px 0;text-align:center}.final h2{font-size:38px;letter-spacing:-.04em;margin:0 0 12px}.final p{color:#c7d2ea;margin:0 0 24px;font-size:18px}
+    .final{background:var(--navy);color:#fff;padding:54px 0;text-align:center}.final h2{font-size:38px;letter-spacing:-.04em;margin:0 0 12px}.final p{color:#c7d2ea;margin:0 0 24px;font-size:18px}.final .actions{margin-bottom:0;justify-content:center}
     footer{background:#050c1f;color:#b7c3df;padding:24px 0 32px}.foot{display:grid;gap:12px;align-items:start}.foot > span{font-size:13px;line-height:1.4}.foot-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.foot-links a{color:#dbe6ff;font-weight:700;font-size:14px;line-height:1}.foot-links .sep{color:#6f81aa;font-weight:700}
     .lang-switch{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;background:rgba(255,255,255,.04);border:1px solid rgba(219,230,255,.22);border-radius:999px;backdrop-filter:blur(6px)}
     .lang-switch label{font-size:11px;color:#aebcda;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
@@ -84,6 +85,8 @@
       .research-main,.research-side{padding:22px}
       .research-main h2{font-size:28px}
       .research-main p{font-size:17px}
+      .research-side-lead{font-size:16px}
+      .research-side-text{font-size:16px;padding:18px 18px 20px 22px}
     }
   </style>
 </head>
@@ -91,14 +94,14 @@
   <main class="page">
     <section class="hero">
       <div class="wrap">
-        <header><a class="logo" href="#"><span>Lens<span>Rewards</span></span></a><nav class="nav"><a href="#funciona">Cómo funciona</a><a href="#faq">FAQ</a><a class="ghost" href="#descarga">Añadir a Chrome</a></nav></header>
+        <header><a class="logo" href="#"><span>Lens<span>Rewards</span></span></a><nav class="nav"><a href="#funciona">Cómo funciona</a><a href="./registro.html">Registro</a><a href="#faq">FAQ</a><a class="ghost" href="#descarga">Añadir a Chrome</a></nav></header>
         <div class="hero-grid">
-          <div><div class="pill">⭐ Gana recompensas por tus tareas online</div><h1>Completa misiones.<br><span class="blue">Gana</span> puntos.<br><span class="green">Canjea</span> recompensas.</h1><p class="lead">Realiza tareas, completa misiones y acumula puntos que puedes canjear por recompensas.</p><div class="actions"><a class="btn btn-primary" href="#descarga">🌐 Añadir a Chrome</a></div></div>
+          <div><div class="pill">⭐ Gana recompensas por tus tareas online</div><h1>Completa misiones.<br><span class="blue">Gana</span> puntos.<br><span class="green">Canjea</span> recompensas.</h1><p class="lead">Realiza tareas, completa misiones y acumula puntos que puedes canjear por recompensas.</p><div class="actions"><a class="btn btn-primary" href="./registro.html">Crear cuenta</a><a class="btn btn-secondary" href="#descarga">🌐 Añadir a Chrome</a></div></div>
           <div class="visual"><div class="browser"><div class="bar"><span class="dot"></span><span class="dot y"></span><span class="dot g"></span><span class="url">app.lensrewards.com/dashboard</span></div><img class="screen" src="assets/dashboard.png" alt="Panel de usuario LensRewards con puntos y misiones"></div></div>
         </div>
       </div>
     </section>
-    <section id="funciona" class="section"><div class="wrap"><h2>Así de fácil es <span>ganar recompensas</span></h2><div class="steps"><article class="step"><div class="num">1</div><h3>Navega como siempre</h3><p>La extensión funciona en segundo plano mientras navegas por Internet.</p></article><div class="arrow">→</div><article class="step"><div class="num">2</div><h3>Completa misiones</h3><p>Te notificamos cuando hay misiones disponibles. Solo sigue los pasos.</p></article><div class="arrow">→</div><article class="step"><div class="num">3</div><h3>Gana puntos</h3><p>Recibe puntos al completar cada misión y haz crecer tu saldo.</p></article></div></div></section>
+    <section id="funciona" class="section"><div class="wrap"><h2>Así de fácil es <span>ganar recompensas</span></h2><div class="steps"><article class="step"><div class="num">1</div><h3>Regístrate gratis</h3><p>Crea tu cuenta en la <a href="./registro.html" style="color:#2f62ff;font-weight:800">página de registro</a>.</p></article><div class="arrow">→</div><article class="step"><div class="num">2</div><h3>Instala la extensión</h3><p>Descarga LensRewards en Chrome y accede con tu cuenta.</p></article><div class="arrow">→</div><article class="step"><div class="num">3</div><h3>Completa misiones</h3><p>Participa en misiones guiadas y acumula recompensas.</p></article></div></div></section>
     <section class="research">
       <div class="wrap research-layout">
         <article class="research-main">
@@ -108,16 +111,12 @@
         </article>
         <aside class="research-side">
           <h3>Qué aporta tu participación</h3>
-          <ul>
-            <li>Datos reales para estudios de mercado</li>
-            <li>Misiones guiadas paso a paso</li>
-            <li>Recompensas por colaboración validada</li>
-            <li>Proceso claro y transparente</li>
-          </ul>
+          <p class="research-side-lead">En LensRewards participas en misiones donde recorres procesos de compra online para analizar precios, condiciones y promociones, pero <strong>sin llegar a realizar ningún pedido</strong> ni <strong>asumir ningún coste</strong>.</p>
+          <p class="research-side-text">Gracias a este tipo de misiones, se obtiene una visión <strong>muy cercana a la realidad del mercado online</strong>, lo que es valioso para los expertos en marketing y estrategia de las empresas, y <strong>por eso recibes recompensas por participar</strong>.</p>
         </aside>
       </div>
     </section>
-    <section class="wrap cards"><article class="feature"><div><h2>Tus puntos, <span>tus recompensas</span></h2><div class="points-card"><div class="label">PUNTOS DISPONIBLES</div><div class="big">250.000 pts</div><div class="usd">Nivel alto de recompensas</div></div></div><div><ul><li>Acumula puntos con cada misión completada</li><li>Sigue tu progreso en tiempo real</li><li>Canjea tus puntos por recompensas</li></ul></div></article><article id="retira" class="withdraw"><div><h2><span>Canjea</span> cuando quieras</h2><ul><li>Canje fácil y rápido</li><li>Múltiples opciones de recompensa</li><li>Transacciones seguras</li><li>Próximamente: tarjetas de Amazon y PayPal</li></ul></div><img src="assets/withdraw.png" alt="Pantalla de recompensas de LensRewards"></article></section>
+    <section class="wrap cards"><article class="feature"><div><h2>Tus puntos, <span>tus recompensas</span></h2><div class="points-card"><div class="label">PUNTOS DISPONIBLES</div><div class="big">250.000 puntos</div><div class="usd">Nivel alto de recompensas</div></div></div><div><ul><li>Acumula puntos con cada misión completada</li><li>Sigue tu progreso en tiempo real</li><li>Canjea tus puntos por recompensas</li></ul></div></article><article id="retira" class="withdraw"><div><h2><span>Canjea</span> cuando quieras</h2><p style="margin:0 0 16px;color:#293650;font-size:17px;line-height:1.55">Las formas de canje son tres: <strong>USDT</strong>, <strong>tarjetas de Amazon</strong> y <strong>PayPal</strong>.</p><ul><li>Canje fácil y rápido desde tu panel</li><li>Transacciones seguras</li></ul></div><img src="assets/withdraw.png" alt="Pantalla de recompensas de LensRewards"></article></section>
     <section id="confianza" class="proof">
       <div class="wrap">
         <h2 style="text-align:center;font-size:36px;letter-spacing:-.04em;margin:0 0 28px">Transparencia y control en <span style="color:#2f62ff">cada misión</span></h2>
@@ -193,7 +192,7 @@
         </details>
       </div>
     </section>
-    <section id="descarga" class="final"><div class="wrap"><h2>Empieza a ganar recompensas hoy</h2><p>Instala la extensión y completa tu primera misión.</p><a class="btn btn-primary" href="#">Añadir a Chrome</a></div></section>
+    <section id="descarga" class="final"><div class="wrap"><h2>Empieza a ganar recompensas hoy</h2><p>Instala la extensión y completa tu primera misión.</p><div class="actions"><a class="btn btn-primary" href="#">Añadir a Chrome</a><a class="btn btn-secondary" href="./registro.html">Crear cuenta</a></div></div></section>
   </main>
   <footer>
     <div class="wrap foot">
@@ -253,9 +252,11 @@
       }
 
       setFooterLanguage("es");
-      langSelect.addEventListener("change", function (event) {
-        setFooterLanguage(event.target.value);
-      });
+      if (langSelect) {
+        langSelect.addEventListener("change", function (event) {
+          setFooterLanguage(event.target.value);
+        });
+      }
     })();
   </script>
 </body>
