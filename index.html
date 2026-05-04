@@ -1,0 +1,243 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LensRewards - Gana puntos completando misiones</title>
+  <meta name="description" content="Completa misiones online, gana puntos y canjea recompensas con LensRewards." />
+  <style>
+    :root{
+      --navy:#071126; --navy-2:#101d3c; --blue:#2f62ff; --blue-2:#6b8cff;
+      --green:#10b981; --ink:#081329; --muted:#64708a; --line:#e7ebf3;
+      --panel:#ffffff; --soft:#f5f7fb; --radius:24px;
+      --shadow:0 24px 60px rgba(15,25,50,.18); --shadow-soft:0 14px 35px rgba(15,25,50,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#fff}
+    a{text-decoration:none;color:inherit}.page{overflow:hidden}
+    .hero{position:relative;min-height:690px;background:radial-gradient(circle at 80% 20%, rgba(73,91,255,.35), transparent 28%),radial-gradient(circle at 12% 70%, rgba(47,98,255,.22), transparent 35%),linear-gradient(135deg,#030815 0%,#081328 52%,#111a3d 100%);color:#fff}
+    .hero::after{content:"";position:absolute;left:0;right:0;bottom:-1px;height:150px;background:linear-gradient(to bottom,rgba(255,255,255,0),#fff 80%);pointer-events:none}
+    .wrap{width:min(1180px,calc(100% - 40px));margin:0 auto;position:relative;z-index:1}
+    header{display:flex;justify-content:space-between;align-items:center;padding:30px 0}
+    .logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:32px;letter-spacing:-.04em}
+    .logo span span{color:var(--blue)}.nav{display:flex;gap:12px;align-items:center}.nav a{font-weight:800;font-size:14px;color:#dce6ff}.nav .ghost{padding:12px 16px;border:1px solid rgba(255,255,255,.18);border-radius:14px}
+    .hero-grid{display:grid;grid-template-columns:minmax(360px,430px) minmax(0,1fr);gap:42px;align-items:center;padding:34px 0 90px}
+    .pill{display:inline-flex;align-items:center;gap:9px;border:1px solid rgba(255,255,255,.16);border-radius:999px;padding:10px 14px;background:rgba(255,255,255,.06);backdrop-filter:blur(8px);font-weight:700;color:#eaf0ff}
+    h1{font-size:58px;line-height:.98;margin:34px 0 22px;letter-spacing:-.06em}h1 .blue{color:#3d73ff}h1 .green{color:#18c978}
+    .lead{font-size:19px;line-height:1.6;color:#c7d2ea;margin:0 0 30px}.actions{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:30px}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:17px 22px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft)}
+    .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff}.btn-secondary{background:rgba(255,255,255,.03);border-color:rgba(255,255,255,.18);color:#fff;box-shadow:none}
+    .trust{display:flex;gap:15px;flex-wrap:wrap;color:#d8e1f7;font-size:14px}.trust span{display:inline-flex;gap:7px;align-items:center}
+    .visual{position:relative;min-height:500px;display:flex;justify-content:flex-end;align-items:flex-start}
+    .browser{position:relative;right:auto;top:auto;width:min(790px,100%);border-radius:18px;background:#fff;overflow:hidden;box-shadow:var(--shadow);border:1px solid rgba(255,255,255,.18)}
+    .bar{height:40px;background:#1c2334;display:flex;align-items:center;padding:0 14px;gap:10px;color:#7f8aa4;font-size:13px}.dot{width:10px;height:10px;border-radius:50%;background:#ff5f57}.dot.y{background:#ffbd2e}.dot.g{background:#28c840}.url{margin-left:12px;background:#2a3145;border-radius:999px;padding:7px 110px 7px 14px;color:#97a1b9}.screen{display:block;width:100%;height:auto}
+    .section{padding:76px 0}.section h2{text-align:center;font-size:36px;line-height:1.1;letter-spacing:-.04em;margin:0 0 42px}.section h2 span{color:var(--blue)}
+    .steps{display:grid;grid-template-columns:1fr 46px 1fr 46px 1fr;gap:14px;align-items:stretch}
+    .step{min-height:220px;background:#fff;border:1px solid var(--line);border-radius:20px;padding:24px;box-shadow:var(--shadow-soft);display:flex;flex-direction:column;overflow:hidden}
+    .num{width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,#3d5afe,#708cff);display:grid;place-items:center;color:#fff;font-weight:900;font-size:14px;margin-bottom:12px}
+    .step h3{margin:0 0 8px;font-size:18px;line-height:1.25;letter-spacing:-.01em}
+    .step p{margin:0;color:var(--muted);line-height:1.5;font-size:18px}
+    .arrow{display:grid;place-items:center;color:#2f62ff;font-size:28px;font-weight:900;align-self:center}
+    .research{padding:10px 0 24px}
+    .research-layout{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:stretch}
+    .research-main{background:#fff;border:1px solid var(--line);border-radius:22px;padding:30px;box-shadow:var(--shadow-soft)}
+    .research-main h2{margin:0 0 16px;font-size:34px;line-height:1.15;letter-spacing:-.03em}
+    .research-main h2 span{color:var(--blue)}
+    .research-main p{margin:0 0 14px;font-size:18px;line-height:1.6;color:#20304f}
+    .research p:last-child{margin-bottom:0}
+    .research-side{background:linear-gradient(135deg,#eef3ff,#ffffff);border:1px solid var(--line);border-radius:22px;padding:24px;box-shadow:var(--shadow-soft)}
+    .research-side h3{margin:0 0 12px;font-size:22px;letter-spacing:-.02em}
+    .research-side ul{list-style:none;margin:0;padding:0;display:grid;gap:11px;color:#2b3955}
+    .research-side li{display:flex;align-items:center;gap:10px;font-weight:700}
+    .research-side li::before{content:"✓";display:inline-grid;place-items:center;flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:linear-gradient(135deg,#10b981,#34d399);color:#fff;font-size:12px;font-weight:900;box-shadow:0 6px 14px rgba(16,185,129,.3)}
+    .cards{display:grid;grid-template-columns:1fr 1.1fr;gap:28px;padding:22px 0 86px}.feature{border-radius:22px;padding:36px;background:linear-gradient(135deg,#eef1ff,#fff);border:1px solid var(--line);box-shadow:var(--shadow-soft);display:grid;grid-template-columns:1fr 220px;gap:28px;align-items:center;min-height:300px}.feature h2,.withdraw h2{text-align:left;margin:0 0 20px;font-size:32px;letter-spacing:-.04em}.feature h2 span{color:var(--blue)}
+    .points-card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow-soft);display:inline-block}.label{font-size:13px;font-weight:900;color:#758199;letter-spacing:.08em}.big{font-size:48px;font-weight:950;letter-spacing:-.06em;background:#d7f8ec;border-radius:12px;padding:8px 12px;margin:8px 0}.usd{font-weight:800;color:#586985}
+    .feature ul,.withdraw ul{list-style:none;margin:0;padding:0;display:grid;gap:14px;color:#293650}.feature li::before,.withdraw li::before{content:"✓";display:inline-grid;place-items:center;width:22px;height:22px;background:#10b981;color:#fff;border-radius:50%;font-size:13px;margin-right:10px;font-weight:900}
+    .withdraw{border-radius:22px;padding:36px;background:linear-gradient(135deg,#ecfff8,#f5ffff);border:1px solid var(--line);box-shadow:var(--shadow-soft);display:grid;grid-template-columns:280px 1fr;gap:28px;align-items:center;min-height:300px}.withdraw h2 span{color:#059669}.withdraw img{width:100%;border-radius:16px;box-shadow:var(--shadow-soft);border:1px solid var(--line)}
+    .proof{padding:10px 0 62px}.proof-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px}.proof-card{background:#fff;border:1px solid var(--line);border-radius:20px;padding:26px;box-shadow:var(--shadow-soft)}.proof-card h3{margin:0 0 14px;font-size:24px;letter-spacing:-.03em}.proof-card p{margin:0;color:var(--muted);line-height:1.55}.proof-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:16px}.stat{border:1px solid var(--line);border-radius:14px;padding:14px;background:var(--soft)}.stat strong{display:block;font-size:22px;letter-spacing:-.03em}.stat span{font-size:13px;color:#69758e}
+    .security-list{list-style:none;padding:0;margin:0;display:grid;gap:10px}.security-list li{display:flex;gap:10px;align-items:flex-start;color:#2b3955}.security-list li::before{content:"🛡️";line-height:1}
+    .faq{padding:20px 0 72px}.faq-wrap{width:min(920px,calc(100% - 40px));margin:0 auto}.faq details{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px 18px;margin-bottom:12px;box-shadow:var(--shadow-soft)}.faq summary{cursor:pointer;font-weight:800;color:#172643}.faq details p{margin:10px 0 2px;color:var(--muted);line-height:1.55}
+    .final{background:var(--navy);color:#fff;padding:54px 0;text-align:center}.final h2{font-size:38px;letter-spacing:-.04em;margin:0 0 12px}.final p{color:#c7d2ea;margin:0 0 24px;font-size:18px}
+    footer{background:#050c1f;color:#b7c3df;padding:24px 0 32px}.foot{display:grid;gap:12px;align-items:start}.foot > span{font-size:13px;line-height:1.4}.foot-links{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.foot-links a{color:#dbe6ff;font-weight:700;font-size:14px;line-height:1}.foot-links .sep{color:#6f81aa;font-weight:700}
+    .lang-switch{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;background:rgba(255,255,255,.04);border:1px solid rgba(219,230,255,.22);border-radius:999px;backdrop-filter:blur(6px)}
+    .lang-switch label{font-size:11px;color:#aebcda;font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    .lang-switch select{appearance:none;-webkit-appearance:none;-moz-appearance:none;height:28px;background:#0f1d3f;color:#eef3ff;border:1px solid rgba(219,230,255,.22);border-radius:999px;padding:0 30px 0 12px;font-weight:800;font-size:13px;line-height:1;cursor:pointer;background-image:linear-gradient(45deg,transparent 50%,#c8d6ff 50%),linear-gradient(135deg,#c8d6ff 50%,transparent 50%);background-position:calc(100% - 14px) calc(50% - 1px),calc(100% - 9px) calc(50% - 1px);background-size:5px 5px,5px 5px;background-repeat:no-repeat;transition:border-color .2s ease,box-shadow .2s ease,transform .2s ease}
+    .lang-switch select:hover{border-color:rgba(219,230,255,.45)}
+    .lang-switch select:focus{outline:none;border-color:#6e92ff;box-shadow:0 0 0 3px rgba(110,146,255,.22)}
+    @media(max-width:980px){.hero-grid{grid-template-columns:1fr}.visual{min-height:430px}.browser{position:relative;right:auto;width:100%}.steps,.cards,.feature,.withdraw,.proof-grid,.proof-stats,.research-layout{grid-template-columns:1fr}.arrow{display:none}h1{font-size:46px}.nav{display:none}.hero{min-height:auto}.feature,.withdraw{display:block}.step{min-height:auto}.step h3{font-size:28px}.step p{font-size:17px}.research-main h2{font-size:30px}}
+    @media(max-width:600px){.wrap{width:min(100% - 24px,1180px)}h1{font-size:40px}.hero-grid{padding-top:10px}.visual{min-height:auto}.section h2{font-size:29px}.big{font-size:38px}.actions .btn{width:100%}.cards{padding-bottom:34px}.research-main,.research-side{padding:22px}.research-main h2{font-size:28px}.research-main p{font-size:17px}}
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <div class="wrap">
+        <header><a class="logo" href="#"><span>Lens<span>Rewards</span></span></a><nav class="nav"><a href="#funciona">Cómo funciona</a><a href="#faq">FAQ</a><a class="ghost" href="#descarga">Añadir a Chrome</a></nav></header>
+        <div class="hero-grid">
+          <div><div class="pill">⭐ Gana recompensas por tus tareas online</div><h1>Completa misiones.<br><span class="blue">Gana</span> puntos.<br><span class="green">Canjea</span> recompensas.</h1><p class="lead">Realiza tareas, completa misiones y acumula puntos que puedes canjear por recompensas.</p><div class="actions"><a class="btn btn-primary" href="#descarga">🌐 Añadir a Chrome</a><a class="btn btn-secondary" href="#funciona">▷ Ver cómo funciona</a></div><div class="trust"><span>🛡️ Sin coste para el usuario</span><span>✅ Nunca se completa una compra</span><span>⚡ Participación guiada</span></div></div>
+          <div class="visual"><div class="browser"><div class="bar"><span class="dot"></span><span class="dot y"></span><span class="dot g"></span><span class="url">app.lensrewards.com/dashboard</span></div><img class="screen" src="assets/dashboard.png" alt="Panel de usuario LensRewards con puntos y misiones"></div></div>
+        </div>
+      </div>
+    </section>
+    <section id="funciona" class="section"><div class="wrap"><h2>Así de fácil es <span>ganar recompensas</span></h2><div class="steps"><article class="step"><div class="num">1</div><h3>Navega como siempre</h3><p>La extensión funciona en segundo plano mientras navegas por Internet.</p></article><div class="arrow">→</div><article class="step"><div class="num">2</div><h3>Completa misiones</h3><p>Te notificamos cuando hay misiones disponibles. Solo sigue los pasos.</p></article><div class="arrow">→</div><article class="step"><div class="num">3</div><h3>Gana puntos</h3><p>Recibe puntos al completar cada misión y haz crecer tu saldo.</p></article></div></div></section>
+    <section class="research">
+      <div class="wrap research-layout">
+        <article class="research-main">
+          <h2>Convierte tu navegación en <span>recompensas</span></h2>
+          <p>En LensRewards participas en misiones de investigación de mercado en las que <strong>simulan procesos reales de compra online</strong>, pero <strong>nunca se finaliza ningún pedido</strong> ni se realiza una compra real. Durante cada misión, la extensión te guía y ayuda a capturar información como precios, disponibilidad, gastos de envío o comportamiento del checkout.</p>
+          <p>Tu participación <strong>no tiene ningún coste ni gasto para ti</strong>. Así, contribuyes a generar datos reales de mercado y recibes recompensas por ello.</p>
+        </article>
+        <aside class="research-side">
+          <h3>Qué aporta tu participación</h3>
+          <ul>
+            <li>Datos reales para estudios de mercado</li>
+            <li>Misiones guiadas paso a paso</li>
+            <li>Recompensas por colaboración validada</li>
+            <li>Proceso claro y transparente</li>
+          </ul>
+        </aside>
+      </div>
+    </section>
+    <section class="wrap cards"><article class="feature"><div><h2>Tus puntos, <span>tus recompensas</span></h2><div class="points-card"><div class="label">PUNTOS DISPONIBLES</div><div class="big">250.000 pts</div><div class="usd">Nivel alto de recompensas</div></div></div><div><ul><li>Acumula puntos con cada misión completada</li><li>Sigue tu progreso en tiempo real</li><li>Canjea tus puntos por recompensas</li></ul></div></article><article id="retira" class="withdraw"><div><h2><span>Canjea</span> cuando quieras</h2><ul><li>Canje fácil y rápido</li><li>Múltiples opciones de recompensa</li><li>Transacciones seguras</li><li>Próximamente: tarjetas de Amazon y PayPal</li></ul></div><img src="assets/withdraw.png" alt="Pantalla de recompensas de LensRewards"></article></section>
+    <section id="confianza" class="proof">
+      <div class="wrap">
+        <h2 style="text-align:center;font-size:36px;letter-spacing:-.04em;margin:0 0 28px">Transparencia y control en <span style="color:#2f62ff">cada misión</span></h2>
+        <div class="proof-grid">
+          <article class="proof-card">
+            <h3>Participas solo en misiones activas</h3>
+            <p>La extensión funciona únicamente durante la ejecución de misiones asignadas y te muestra el proceso de forma guiada.</p>
+            <ul class="security-list" style="margin-top:14px">
+              <li>Tú supervisas cada paso.</li>
+              <li>Las misiones son claras y guiadas.</li>
+              <li>Puedes consultar tus recompensas desde tu panel.</li>
+            </ul>
+          </article>
+          <article class="proof-card">
+            <h3>Tu esfuerzo se convierte en recompensas</h3>
+            <p><strong>Cada misión validada genera una recompensa que se acumula dentro de tu cuenta.</strong></p>
+            <p style="margin-top:10px">Puedes consultar tu historial de misiones y el estado de tus recompensas en cualquier momento.</p>
+            <div class="proof-stats">
+              <div class="stat"><strong>Tiempo real</strong><span>Estado de misión actualizado</span></div>
+              <div class="stat"><strong>100%</strong><span>Visibilidad desde tu panel</span></div>
+              <div class="stat"><strong>Control</strong><span>Participación guiada y segura</span></div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+    <section id="faq" class="faq">
+      <div class="faq-wrap">
+        <h2 style="text-align:center;font-size:34px;letter-spacing:-.04em;margin:0 0 24px">Preguntas frecuentes</h2>
+        <details>
+          <summary>¿Tengo que comprar algo o pagar en algún momento?</summary>
+          <p>No. En ninguna misión tendrás que realizar compras ni asumir ningún coste. Las misiones consisten en explorar páginas web, revisar información o avanzar en procesos de compra sin llegar a completar ningún pedido.</p>
+        </details>
+        <details>
+          <summary>¿Qué tipo de tareas tendré que hacer exactamente?</summary>
+          <p>Las misiones suelen consistir en navegar por tiendas online, buscar productos, revisar precios, comprobar condiciones o avanzar en el proceso de compra. En algunos casos solo tendrás que supervisar lo que hace la extensión y confirmar ciertos pasos.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto esfuerzo requiere participar?</summary>
+          <p>El esfuerzo es reducido. La extensión realiza gran parte del trabajo automáticamente, por lo que en muchas misiones solo tendrás que seguir indicaciones sencillas o validar algunos pasos.</p>
+        </details>
+        <details>
+          <summary>¿Puedo hacerlo mientras hago otras cosas en el ordenador?</summary>
+          <p>Sí. Muchas misiones permiten que realices otras tareas al mismo tiempo, ya que la extensión automatiza parte del proceso. Solo tendrás que intervenir en momentos puntuales.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto tiempo dura una misión?</summary>
+          <p>Depende del tipo de misión, pero antes de empezar siempre podrás ver la duración estimada. Algunas pueden durar solo unos minutos, mientras que otras requieren algo más de tiempo.</p>
+        </details>
+        <details>
+          <summary>¿Cuánto dinero puedo ganar?</summary>
+          <p>La recompensa depende del tipo de misión, su duración y el perfil requerido. Antes de empezar cada misión verás la recompensa asociada, por lo que podrás decidir si te interesa realizarla.</p>
+        </details>
+        <details>
+          <summary>¿Cómo y cuándo recibo el dinero?</summary>
+          <p>Cada misión completada suma una recompensa a tu saldo dentro de la plataforma. Podrás consultar en todo momento cuánto has acumulado y retirar el dinero cuando alcances el importe mínimo establecido.</p>
+        </details>
+        <details>
+          <summary>¿La extensión funciona todo el tiempo o accede a mi información?</summary>
+          <p>No. La extensión solo se activa durante las misiones en las que decides participar. Fuera de ellas no funciona ni recoge información.</p>
+        </details>
+        <details>
+          <summary>¿Necesito conocimientos técnicos o experiencia previa?</summary>
+          <p>No. Las misiones están diseñadas para que cualquier persona pueda realizarlas. Solo necesitas saber navegar por internet de forma básica.</p>
+        </details>
+        <details>
+          <summary>¿Por qué me pagan por hacer estas misiones?</summary>
+          <p>Las empresas necesitan entender cómo se comportan sus productos y servicios en el mercado online. La información que se obtiene a través de estas misiones refleja situaciones reales, por lo que resulta valiosa para mejorar precios, ofertas y estrategias. Por eso se recompensa tu participación.</p>
+        </details>
+        <details>
+          <summary>¿Dónde pido ayuda si tengo un problema?</summary>
+          <p>Puedes escribir a <a href="mailto:soporte@lensrewards.com" style="color:#2f62ff;font-weight:700">soporte@lensrewards.com</a> y te responderemos lo antes posible.</p>
+        </details>
+      </div>
+    </section>
+    <section id="descarga" class="final"><div class="wrap"><h2>Empieza a ganar recompensas hoy</h2><p>Instala la extensión y completa tu primera misión.</p><a class="btn btn-primary" href="#">Añadir a Chrome</a></div></section>
+  </main>
+  <footer>
+    <div class="wrap foot">
+      <span>© 2026 LensRewards. Todos los derechos reservados.</span>
+      <div class="foot-links">
+        <div class="lang-switch">
+          <label for="footer-lang">Idioma</label>
+          <select id="footer-lang" aria-label="Seleccionar idioma legal">
+            <option value="es" selected>Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <span class="sep">|</span>
+        <a id="link-legal" href="./es/aviso-legal/">Aviso legal</a>
+        <span class="sep">|</span>
+        <a id="link-privacy" href="./es/politica-de-privacidad/">Política de privacidad</a>
+        <span class="sep">|</span>
+        <a id="link-terms" href="./es/terminos-y-condiciones/">Términos y condiciones</a>
+        <span class="sep">|</span>
+        <a id="link-cookies" href="./es/politica-de-cookies/">Política de cookies</a>
+        <span class="sep">|</span>
+        <a id="link-contact" href="mailto:soporte@lensrewards.com">Contacto</a>
+      </div>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      var langSelect = document.getElementById("footer-lang");
+      var legalLink = document.getElementById("link-legal");
+      var privacyLink = document.getElementById("link-privacy");
+      var termsLink = document.getElementById("link-terms");
+      var cookiesLink = document.getElementById("link-cookies");
+      var contactLink = document.getElementById("link-contact");
+
+      function setFooterLanguage(lang) {
+        if (lang === "en") {
+          legalLink.textContent = "Legal Notice";
+          legalLink.href = "./es/aviso-legal/";
+          privacyLink.textContent = "Privacy Policy";
+          privacyLink.href = "./en/privacy-policy/";
+          termsLink.textContent = "Terms and Conditions";
+          termsLink.href = "./en/terms-and-conditions/";
+          cookiesLink.textContent = "Cookie Policy";
+          cookiesLink.href = "./es/politica-de-cookies/";
+          contactLink.textContent = "Contact";
+        } else {
+          legalLink.textContent = "Aviso legal";
+          legalLink.href = "./es/aviso-legal/";
+          privacyLink.textContent = "Política de privacidad";
+          privacyLink.href = "./es/politica-de-privacidad/";
+          termsLink.textContent = "Términos y condiciones";
+          termsLink.href = "./es/terminos-y-condiciones/";
+          cookiesLink.textContent = "Política de cookies";
+          cookiesLink.href = "./es/politica-de-cookies/";
+          contactLink.textContent = "Contacto";
+        }
+      }
+
+      setFooterLanguage("es");
+      langSelect.addEventListener("change", function (event) {
+        setFooterLanguage(event.target.value);
+      });
+    })();
+  </script>
+</body>
+</html>
