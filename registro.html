@@ -1,0 +1,257 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LensRewards - Registro</title>
+  <meta name="description" content="Crea tu cuenta en LensRewards y descarga la extensión." />
+  <style>
+    :root{
+      --navy:#071126; --blue:#2f62ff; --ink:#081329; --muted:#64708a; --line:#e7ebf3;
+      --shadow-soft:0 14px 35px rgba(15,25,50,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#f6f9ff}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(640px,calc(100% - 32px));margin:0 auto}
+    .top{padding:22px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{font-weight:950;font-size:22px;letter-spacing:-.03em}
+    .brand span{color:var(--blue)}
+    .back{font-weight:800;font-size:14px;color:#2f62ff}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-soft);margin:10px 0 40px}
+    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
+    .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
+    .signup-form{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+    .signup-form .full{grid-column:1/-1}
+    .signup-field{display:grid;gap:6px}
+    .signup-field label{font-size:13px;font-weight:800;color:#253657}
+    .signup-field input,.signup-field select{height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;color:#1c2c4b;background:#fff}
+    .password-meter{margin-top:6px}
+    .password-meter-track{height:6px;border-radius:999px;background:#e8eefb;overflow:hidden}
+    .password-meter-bar{height:100%;width:0%;border-radius:999px;background:transparent;transition:width .22s ease,background-color .22s ease}
+    .password-meter-text{margin-top:6px;font-size:12px;font-weight:700;color:#5f6d88}
+    .signup-check{display:flex;gap:8px;align-items:flex-start;color:#394c70;font-size:14px}
+    .signup-check input{margin-top:3px}
+    .signup-check a{color:#2f62ff;font-weight:700}
+    .signup-status{min-height:22px;font-size:14px;font-weight:700}
+    .signup-status.error{color:#dc2626}
+    .signup-status.ok{color:#059669}
+    .signup-status.loading{color:#2f62ff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px 18px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft);cursor:pointer;font:inherit}
+    .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff;width:100%}
+    @media(max-width:600px){.signup-form{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="./index.html">Lens<span>Rewards</span></a>
+      <a class="back" href="./index.html">← Volver</a>
+    </div>
+    <main class="card">
+      <h1>Crear cuenta</h1>
+      <p class="sub">Regístrate gratis. Después podrás instalar la extensión e iniciar sesión con el mismo correo y contraseña.</p>
+      <form id="signupForm" class="signup-form" novalidate>
+        <div class="signup-field full">
+          <label for="fullName">Nombre y apellidos</label>
+          <input id="fullName" type="text" autocomplete="name" placeholder="Nombre Apellidos" />
+        </div>
+        <div class="signup-field">
+          <label for="email">Correo electrónico</label>
+          <input id="email" type="email" autocomplete="email" placeholder="tu@email.com" />
+        </div>
+        <div class="signup-field">
+          <label for="countryCode">Código de país</label>
+          <select id="countryCode" aria-label="Código de país">
+            <option value="">Selecciona un país</option>
+          </select>
+        </div>
+        <div class="signup-field">
+          <label for="postalCode">Código postal</label>
+          <input id="postalCode" type="text" autocomplete="postal-code" placeholder="28001" />
+        </div>
+        <div class="signup-field full">
+          <label for="password">Contraseña</label>
+          <input id="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+          <div class="password-meter" aria-live="polite">
+            <div class="password-meter-track"><div id="passwordStrengthBar" class="password-meter-bar"></div></div>
+            <div id="passwordStrengthText" class="password-meter-text">Seguridad: —</div>
+          </div>
+        </div>
+        <div class="signup-field full">
+          <label for="passwordConfirm">Repetir contraseña</label>
+          <input id="passwordConfirm" type="password" autocomplete="new-password" placeholder="Repite la contraseña" />
+        </div>
+        <label class="signup-check full" for="privacyAccepted">
+          <input id="privacyAccepted" type="checkbox" />
+          <span>He leído y acepto <a href="./es/terminos-y-condiciones/" target="_blank" rel="noopener noreferrer">los Términos y Condiciones</a> y la <a href="./es/politica-de-privacidad/" target="_blank" rel="noopener noreferrer">Política de Privacidad</a>, y consiento el tratamiento de mis datos personales, incluida la recopilación de datos de navegación durante la ejecución de misiones mediante la extensión de navegador.</span>
+        </label>
+        <div id="signupStatus" class="signup-status full"></div>
+        <div class="full">
+          <button id="signupBtn" type="submit" class="btn btn-primary">Crear cuenta</button>
+        </div>
+      </form>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var API_BASE = "https://api.lensrewards.com";
+      var COUNTRIES = [
+        { code: "ES", name: "Spain" }, { code: "PT", name: "Portugal" }, { code: "FR", name: "France" },
+        { code: "IT", name: "Italy" }, { code: "DE", name: "Germany" }, { code: "GB", name: "United Kingdom" },
+        { code: "IE", name: "Ireland" }, { code: "NL", name: "Netherlands" }, { code: "BE", name: "Belgium" },
+        { code: "LU", name: "Luxembourg" }, { code: "CH", name: "Switzerland" }, { code: "AT", name: "Austria" },
+        { code: "SE", name: "Sweden" }, { code: "NO", name: "Norway" }, { code: "DK", name: "Denmark" },
+        { code: "FI", name: "Finland" }, { code: "PL", name: "Poland" }, { code: "CZ", name: "Czech Republic" },
+        { code: "SK", name: "Slovakia" }, { code: "HU", name: "Hungary" }, { code: "RO", name: "Romania" },
+        { code: "BG", name: "Bulgaria" }, { code: "GR", name: "Greece" }, { code: "HR", name: "Croatia" },
+        { code: "SI", name: "Slovenia" }, { code: "EE", name: "Estonia" }, { code: "LV", name: "Latvia" },
+        { code: "LT", name: "Lithuania" }, { code: "US", name: "United States" }, { code: "CA", name: "Canada" },
+        { code: "MX", name: "Mexico" }, { code: "AR", name: "Argentina" }, { code: "CL", name: "Chile" },
+        { code: "CO", name: "Colombia" }, { code: "PE", name: "Peru" }, { code: "UY", name: "Uruguay" },
+        { code: "PY", name: "Paraguay" }, { code: "BR", name: "Brazil" }, { code: "VE", name: "Venezuela" },
+        { code: "EC", name: "Ecuador" }, { code: "BO", name: "Bolivia" }, { code: "CR", name: "Costa Rica" },
+        { code: "PA", name: "Panama" }, { code: "DO", name: "Dominican Republic" }, { code: "GT", name: "Guatemala" },
+        { code: "SV", name: "El Salvador" }, { code: "HN", name: "Honduras" }, { code: "NI", name: "Nicaragua" },
+        { code: "JP", name: "Japan" }, { code: "KR", name: "South Korea" }, { code: "CN", name: "China" },
+        { code: "IN", name: "India" }, { code: "AU", name: "Australia" }, { code: "NZ", name: "New Zealand" },
+        { code: "ZA", name: "South Africa" }, { code: "MA", name: "Morocco" }, { code: "EG", name: "Egypt" },
+        { code: "AE", name: "United Arab Emirates" }, { code: "SA", name: "Saudi Arabia" }, { code: "TR", name: "Turkey" }
+      ];
+
+      var signupForm = document.getElementById("signupForm");
+      var signupBtn = document.getElementById("signupBtn");
+      var signupStatus = document.getElementById("signupStatus");
+      var regCountryCode = document.getElementById("countryCode");
+      var regPassword = document.getElementById("password");
+      var passwordStrengthBar = document.getElementById("passwordStrengthBar");
+      var passwordStrengthText = document.getElementById("passwordStrengthText");
+
+      function setStatus(message, type) {
+        signupStatus.textContent = message || "";
+        signupStatus.className = "signup-status " + (type || "");
+      }
+
+      function populateCountrySelect() {
+        if (!regCountryCode) return;
+        var frag = document.createDocumentFragment();
+        for (var i = 0; i < COUNTRIES.length; i++) {
+          var c = COUNTRIES[i];
+          var opt = document.createElement("option");
+          opt.value = c.code;
+          opt.textContent = c.name + " (" + c.code + ")";
+          frag.appendChild(opt);
+        }
+        regCountryCode.appendChild(frag);
+        if (!regCountryCode.value) regCountryCode.value = "ES";
+      }
+
+      function evaluatePasswordStrength(password) {
+        var p = String(password || "");
+        var score = 0;
+        if (p.length >= 8) score += 1;
+        if (/[a-z]/.test(p)) score += 1;
+        if (/[A-Z]/.test(p)) score += 1;
+        if (/\d/.test(p)) score += 1;
+        if (/[^A-Za-z0-9]/.test(p)) score += 1;
+        if (p.length >= 12) score += 1;
+        if (p.length === 0) return { level: "empty", score: score };
+        if (score <= 2) return { level: "weak", score: score };
+        if (score <= 4) return { level: "medium", score: score };
+        return { level: "strong", score: score };
+      }
+
+      function updatePasswordMeter() {
+        var level = evaluatePasswordStrength(regPassword && regPassword.value).level;
+        if (!passwordStrengthBar || !passwordStrengthText) return;
+        var bar = passwordStrengthBar;
+        var pct = "0%";
+        var bg = "transparent";
+        var label = "Seguridad: —";
+        if (level === "weak") {
+          pct = "33%";
+          bg = "#f97316";
+          label = "Seguridad: baja";
+        } else if (level === "medium") {
+          pct = "66%";
+          bg = "#f59e0b";
+          label = "Seguridad: media";
+        } else if (level === "strong") {
+          pct = "100%";
+          bg = "#10b981";
+          label = "Seguridad: alta";
+        }
+        bar.style.width = pct;
+        bar.style.backgroundColor = bg;
+        passwordStrengthText.textContent = label;
+      }
+
+      populateCountrySelect();
+      updatePasswordMeter();
+      if (regPassword) regPassword.addEventListener("input", updatePasswordMeter);
+
+      if (signupForm) {
+        signupForm.addEventListener("submit", async function (e) {
+          e.preventDefault();
+          var fullName = document.getElementById("fullName").value.trim();
+          var email = document.getElementById("email").value.trim();
+          var country = document.getElementById("countryCode").value.trim().toUpperCase();
+          var postalCode = document.getElementById("postalCode").value.trim();
+          var password = document.getElementById("password").value;
+          var passwordConfirm = document.getElementById("passwordConfirm").value;
+          var privacyAccepted = document.getElementById("privacyAccepted").checked;
+
+          if (!fullName || !email || !country || !postalCode || !password) {
+            setStatus("Completa todos los campos obligatorios.", "error");
+            return;
+          }
+          if (password.length < 8) {
+            setStatus("La contraseña debe tener mínimo 8 caracteres.", "error");
+            return;
+          }
+          if (password !== passwordConfirm) {
+            setStatus("Las contraseñas no coinciden.", "error");
+            return;
+          }
+          var strength = evaluatePasswordStrength(password);
+          if (strength.level === "weak" || strength.level === "empty") {
+            setStatus("La contraseña es demasiado débil.", "error");
+            return;
+          }
+          if (!privacyAccepted) {
+            setStatus("Debes aceptar los Términos, la Política de Privacidad y el consentimiento indicado.", "error");
+            return;
+          }
+
+          signupBtn.disabled = true;
+          setStatus("Creando cuenta...", "loading");
+
+          try {
+            var res = await fetch(API_BASE + "/api/auth/register", {
+              method: "POST",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                email: email,
+                password: password,
+                full_name: fullName,
+                country_code: country,
+                postal_code: postalCode
+              })
+            });
+            var data = await res.json().catch(function () { return {}; });
+            if (!res.ok || data.status === "KO" || !data.token || !data.user) {
+              throw new Error(data.error || data.message || "No se pudo crear la cuenta");
+            }
+            setStatus("Cuenta creada. Redirigiendo…", "ok");
+            window.location.href = "./index.html#descarga";
+          } catch (err) {
+            setStatus("Error al crear cuenta: " + (err && err.message ? err.message : "Inténtalo de nuevo"), "error");
+          } finally {
+            signupBtn.disabled = false;
+          }
+        });
+      }
+    })();
+  </script>
+</body>
+</html>
