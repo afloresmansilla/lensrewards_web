@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LensRewards - Verificar email</title>
+  <meta name="description" content="Verifica tu email para activar tu cuenta de LensRewards." />
+  <style>
+    :root{
+      --ink:#081329; --muted:#64708a; --line:#e7ebf3; --blue:#2f62ff;
+      --shadow-soft:0 14px 35px rgba(15,25,50,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:20px;background:#f6f9ff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    .card{width:min(680px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:28px;box-shadow:var(--shadow-soft)}
+    .brand{display:inline-block;margin-bottom:10px;font-weight:950;font-size:24px;letter-spacing:-.03em;text-decoration:none;color:inherit}
+    .brand span{color:var(--blue)}
+    h1{margin:0 0 8px;font-size:32px;letter-spacing:-.03em}
+    .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
+    .status{margin:0;padding:16px 18px;border-radius:14px;border:1px solid #dbe6ff;background:#f3f7ff;color:#1d2f52;font-weight:700;line-height:1.5}
+    .status.ok{background:#ecfdf5;border-color:#a7f3d0;color:#065f46}
+    .status.error{background:#fef2f2;border-color:#fecaca;color:#991b1b}
+    .links{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+    .btn{display:inline-flex;align-items:center;justify-content:center;padding:12px 16px;border-radius:12px;font-weight:900;text-decoration:none;border:1px solid transparent}
+    .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff}
+    .btn-secondary{background:#fff;border-color:#dbe6ff;color:#2f62ff}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <a class="brand" href="../index.html">Lens<span>Rewards</span></a>
+    <h1>Verificacion de email</h1>
+    <p class="sub">Estamos validando tu cuenta para que puedas iniciar sesion en la plataforma y en la extension.</p>
+    <p id="status" class="status">Preparando verificacion...</p>
+    <div class="links">
+      <a class="btn btn-primary" href="../registro.html">Crear cuenta</a>
+      <a class="btn btn-secondary" href="../index.html">Volver al inicio</a>
+    </div>
+  </main>
+
+  <script>
+    (async function () {
+      var params = new URLSearchParams(window.location.search);
+      var token = params.get("token");
+      var statusEl = document.getElementById("status");
+
+      function setStatus(message, type) {
+        statusEl.textContent = message;
+        statusEl.className = "status" + (type ? " " + type : "");
+      }
+
+      if (!token) {
+        setStatus("Token de verificacion no encontrado.", "error");
+        return;
+      }
+
+      setStatus("Verificando email...");
+
+      try {
+        var res = await fetch("https://api.lensrewards.com/api/auth/verify-email", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ token: token })
+        });
+        var data = await res.json().catch(function () { return {}; });
+        if (res.ok && data.status === "OK") {
+          setStatus("Email verificado correctamente. Ya puedes iniciar sesion.", "ok");
+        } else {
+          setStatus(data.mensaje || data.message || "No se pudo verificar el email.", "error");
+        }
+      } catch (e) {
+        setStatus("Error de conexion al verificar el email.", "error");
+      }
+    })();
+  </script>
+</body>
+</html>
