@@ -29,11 +29,10 @@
 <body>
   <main class="card">
     <a class="brand" href="../index.html">Lens<span>Rewards</span></a>
-    <h1>Verificacion de email</h1>
-    <p class="sub">Estamos validando tu cuenta para que puedas iniciar sesion en la plataforma y en la extension.</p>
+    <h1>Verificación de email</h1>
+    <p class="sub">Estamos validando tu cuenta para que puedas iniciar sesión en la plataforma y en la extensión.</p>
     <p id="status" class="status">Preparando verificacion...</p>
-    <div class="links">
-      <a class="btn btn-primary" href="../registro.html">Crear cuenta</a>
+    <div id="linksDefault" class="links">
       <a class="btn btn-secondary" href="../index.html">Volver al inicio</a>
     </div>
   </main>
@@ -64,7 +63,8 @@
         });
         var data = await res.json().catch(function () { return {}; });
         if (res.ok && data.status === "OK") {
-          setStatus("Email verificado correctamente. Ya puedes iniciar sesion.", "ok");
+          window.location.replace("../primeros-pasos.html?from=email-verificado");
+          return;
         } else {
           setStatus(data.mensaje || data.message || "No se pudo verificar el email.", "error");
         }
@@ -73,5 +73,6 @@
       }
     })();
   </script>
+  <script defer src="../config/apply-site-links.js"></script>
 </body>
 </html>

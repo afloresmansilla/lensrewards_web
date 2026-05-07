@@ -243,7 +243,7 @@
               throw new Error(data.error || data.message || "No se pudo crear la cuenta");
             }
             setStatus("Cuenta creada. Redirigiendo…", "ok");
-            window.location.href = "./index.html#descarga";
+            window.location.href = "./primeros-pasos.html?from=registro";
           } catch (err) {
             setStatus("Error al crear cuenta: " + (err && err.message ? err.message : "Inténtalo de nuevo"), "error");
           } finally {
