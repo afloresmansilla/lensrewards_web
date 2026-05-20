@@ -7,13 +7,31 @@
   if (!sc || !sc.src) return;
   var base = sc.src.replace(/[^/]+$/, "");
 
+  function chromeExtensionInstallUrl(cfg) {
+    var ext = cfg && cfg.chromeExtension;
+    var id = ext && ext.id ? String(ext.id).trim() : "";
+    if (!id) {
+      var legacy = cfg && cfg.urls && cfg.urls.chromeExtensionInstall;
+      return typeof legacy === "string" ? legacy : "";
+    }
+    var slug = ext.slug && String(ext.slug).trim() ? String(ext.slug).trim() : "lensrewards";
+    return (
+      "https://chromewebstore.google.com/detail/" +
+      slug +
+      "/" +
+      id +
+      "?hl=es&utm_source=lensrewards_web"
+    );
+  }
+
   function apply(cfg) {
     var urls = cfg && cfg.urls ? cfg.urls : {};
+    var extensionInstallUrl = chromeExtensionInstallUrl(cfg);
+
     document.querySelectorAll('[data-site-link="chromeExtensionInstall"]').forEach(function (el) {
-      var u = urls.chromeExtensionInstall;
-      if (!u || typeof u !== "string") return;
-      el.setAttribute("href", u);
-      if (/^https?:\/\//i.test(u)) {
+      if (!extensionInstallUrl) return;
+      el.setAttribute("href", extensionInstallUrl);
+      if (/^https?:\/\//i.test(extensionInstallUrl)) {
         el.setAttribute("target", "_blank");
         el.setAttribute("rel", "noopener noreferrer");
       }
