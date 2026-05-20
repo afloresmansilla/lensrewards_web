@@ -1,8 +1,11 @@
 {
-  "_readme": "Referencias estáticas de la web pública. Para cambiar el enlace de la extensión, edita solo urls.chromeExtensionInstall (URL completa de la ficha en Chrome Web Store).",
-  "version": 1,
+  "_readme": "Referencias estáticas de la web pública. Para cambiar el enlace de la extensión, edita chromeExtension.id (ID de Chrome Web Store).",
+  "version": 2,
+  "chromeExtension": {
+    "id": "pkfcmneineoknlgdhoghjgfpnllokflk",
+    "slug": "lensrewards"
+  },
   "urls": {
-    "chromeExtensionInstall": "https://chromewebstore.google.com/detail/selenium-auto-code-genera/ocimgcpcnobcnmclomhhmjidgoiekeaf?hl=es&utm_source=ext_sidebar",
     "supportMailto": "mailto:soporte@lensrewards.com",
     "apiBase": "https://api.lensrewards.com",
     "appDashboard": "https://app.lensrewards.com/dashboard"

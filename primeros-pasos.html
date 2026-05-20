@@ -21,6 +21,7 @@
       background:linear-gradient(180deg,#eef3ff 0%,#f6f9ff 35%,#ffffff 100%);
     }
     a{text-decoration:none;color:inherit}
+    .inline-ext-link{color:var(--blue);font-weight:700;text-decoration:underline}
     .shell{min-height:100dvh;display:flex;flex-direction:column}
     .hero{
       position:relative;
@@ -198,14 +199,14 @@
         </div>
         <span class="pill">Guía rápida · nuevos usuarios</span>
         <h1>Tus <span class="accent">primeros pasos</span> en LensRewards</h1>
-        <p class="hero-lead">Instala la extensión, inicia sesión y empieza a completar misiones. Todo lo esencial, en un solo lugar.</p>
+        <p class="hero-lead"><a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">Instala la extensión</a>, inicia sesión y empieza a completar misiones. Todo lo esencial, en un solo lugar.</p>
       </div>
     </header>
 
     <div class="main-wrap">
       <main class="card">
         <p id="fromRegBanner" class="banner" role="status">Cuenta creada correctamente. Debes verificar tu correo electrónico: busca el mensaje en tu bandeja de entrada y también en la carpeta de spam o correo no deseado.</p>
-        <p id="fromEmailVerifiedBanner" class="banner" role="status">Tu cuenta ha sido validada correctamente. Ya puedes iniciar sesión y seguir los pasos que aparecen a continuación para instalar la extensión.</p>
+        <p id="fromEmailVerifiedBanner" class="banner" role="status">Tu cuenta ha sido validada correctamente. Ya puedes iniciar sesión y seguir los pasos que aparecen a continuación para <a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">instalar la extensión</a>.</p>
 
         <section class="welcome" aria-labelledby="welcome-title">
           <h2 id="welcome-title">¡Te damos la bienvenida!</h2>
@@ -220,10 +221,10 @@
           <article class="step-card" aria-labelledby="step1-title">
             <div class="step-head">
               <span class="step-num" aria-hidden="true">1</span>
-              <h3 id="step1-title">Instalar la extensión</h3>
+              <h3 id="step1-title"><a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">Instalar la extensión</a></h3>
             </div>
             <div class="step-body">
-              <p>Para comenzar, instala nuestra extensión de Chrome desde la Chrome Web Store.</p>
+              <p>Para comenzar, <a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">instala nuestra extensión de Chrome</a> desde la <a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">Chrome Web Store</a>.</p>
               <ul class="checklist checklist--emoji">
                 <li>Haz clic en “<strong>Añadir a Chrome</strong>”.</li>
                 <li>Confirma haciendo clic en “<strong>Añadir extensión</strong>”.</li>
@@ -251,7 +252,7 @@
               <h3 id="step2-title">Iniciar sesión</h3>
             </div>
             <div class="step-body">
-              <p>Después de instalar la extensión:</p>
+              <p>Después de <a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">instalar la extensión</a>:</p>
               <ul class="checklist checklist--emoji">
                 <li>Haz clic en el icono de LensRewards en tu navegador.</li>
                 <li>Introduce tu email y contraseña.</li>
