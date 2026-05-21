@@ -14,10 +14,14 @@
     body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:20px;background:#f6f9ff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
     a{text-decoration:none;color:inherit}
     .card{width:min(640px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-soft)}
-    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px;flex-wrap:wrap}
+    .top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .brand{font-weight:950;font-size:22px;letter-spacing:-.03em}
     .brand span{color:var(--blue)}
     .back{font-weight:800;font-size:14px;color:#2f62ff}
+    .lang-switch{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;background:#fff;border:1px solid var(--line);border-radius:999px}
+    .lang-switch label{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    .lang-switch select{appearance:none;height:28px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:0 28px 0 10px;font-weight:800;font-size:13px;cursor:pointer}
     h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
     .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
     .field{display:grid;gap:6px;margin-bottom:12px}
@@ -43,42 +47,53 @@
   <main class="card">
     <div class="top">
       <a class="brand" href="../index.html">Lens<span>Rewards</span></a>
-      <a class="back" href="../olvide-contrasena.html">Solicitar nuevo enlace</a>
+      <div class="top-actions">
+        <div class="lang-switch">
+          <label for="page-lang" data-i18n="langLabel">Idioma</label>
+          <select id="page-lang" aria-label="Language">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <a class="back" data-i18n="back" data-i18n-href="forgot" href="../olvide-contrasena.html">Solicitar nuevo enlace</a>
+      </div>
     </div>
-    <h1>Nueva contraseña</h1>
-    <p class="sub">Elige una contraseña segura. Después podrás iniciar sesión en la extensión con tu correo y la nueva contraseña.</p>
+    <h1 data-i18n="h1">Nueva contraseña</h1>
+    <p class="sub" data-i18n="sub">Elige una contraseña segura. Después podrás iniciar sesión en la extensión con tu correo y la nueva contraseña.</p>
 
     <p id="tokenError" class="token-error" style="display:none" role="alert"></p>
 
     <form id="resetForm" novalidate style="display:none">
       <div class="field">
-        <label for="password">Nueva contraseña</label>
-        <input id="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+        <label for="password" data-i18n="passwordLabel">Nueva contraseña</label>
+        <input id="password" type="password" autocomplete="new-password" data-i18n-placeholder="passwordPlaceholder" placeholder="Mínimo 8 caracteres" />
         <div class="password-meter" aria-live="polite">
           <div class="password-meter-track"><div id="passwordStrengthBar" class="password-meter-bar"></div></div>
-          <div id="passwordStrengthText" class="password-meter-text">Seguridad: —</div>
+          <div id="passwordStrengthText" class="password-meter-text" data-i18n="strengthEmpty">Seguridad: —</div>
         </div>
       </div>
       <div class="field">
-        <label for="passwordConfirm">Repetir contraseña</label>
-        <input id="passwordConfirm" type="password" autocomplete="new-password" placeholder="Repite la contraseña" />
+        <label for="passwordConfirm" data-i18n="confirmLabel">Repetir contraseña</label>
+        <input id="passwordConfirm" type="password" autocomplete="new-password" data-i18n-placeholder="confirmPlaceholder" placeholder="Repite la contraseña" />
       </div>
       <div id="status" class="status"></div>
-      <button id="submitBtn" type="submit" class="btn btn-primary">Guardar contraseña</button>
+      <button id="submitBtn" type="submit" class="btn btn-primary" data-i18n="submitBtn">Guardar contraseña</button>
     </form>
 
     <div id="successPanel" style="display:none">
       <p class="status ok" id="successMessage"></p>
       <div class="links">
-        <a href="../primeros-pasos.html?from=password-reset">Ir a primeros pasos</a>
-        <a href="../index.html">Volver al inicio</a>
+        <a data-i18n="linkFirstSteps" data-i18n-href="firstSteps" href="../primeros-pasos.html?from=password-reset">Ir a primeros pasos</a>
+        <a data-i18n="linkHome" data-i18n-href="home" href="../index.html">Volver al inicio</a>
       </div>
     </div>
   </main>
 
+  <script src="../config/auth-pages-i18n.js"></script>
   <script>
     (function () {
       var API_BASE = "https://api.lensrewards.com";
+      var i18n = LensAuthI18n.init({ page: "reset", basePath: "../" });
       var params = new URLSearchParams(window.location.search);
       var token = (params.get("token") || "").trim();
 
@@ -124,27 +139,31 @@
         if (!passwordStrengthBar || !passwordStrengthText) return;
         var pct = "0%";
         var bg = "transparent";
-        var label = "Seguridad: —";
+        var label = i18n.t("strengthEmpty");
         if (level === "weak") {
           pct = "33%";
           bg = "#f97316";
-          label = "Seguridad: baja";
+          label = i18n.t("strengthWeak");
         } else if (level === "medium") {
           pct = "66%";
           bg = "#f59e0b";
-          label = "Seguridad: media";
+          label = i18n.t("strengthMedium");
         } else if (level === "strong") {
           pct = "100%";
           bg = "#10b981";
-          label = "Seguridad: alta";
+          label = i18n.t("strengthStrong");
         }
         passwordStrengthBar.style.width = pct;
         passwordStrengthBar.style.backgroundColor = bg;
         passwordStrengthText.textContent = label;
       }
 
+      document.getElementById("page-lang").addEventListener("change", function () {
+        if (passwordInput && passwordInput.value) updatePasswordMeter();
+      });
+
       if (!token) {
-        showTokenError("Enlace no válido: falta el token de recuperación. Solicita un nuevo enlace desde la página de recuperación.");
+        showTokenError(i18n.t("errTokenMissing"));
         return;
       }
 
@@ -158,21 +177,21 @@
         var passwordConfirm = passwordConfirmInput.value;
 
         if (!password || password.length < 8) {
-          setStatus("La contraseña debe tener mínimo 8 caracteres.", "error");
+          setStatus(i18n.t("errPasswordMin"), "error");
           return;
         }
         if (password !== passwordConfirm) {
-          setStatus("Las contraseñas no coinciden.", "error");
+          setStatus(i18n.t("errPasswordMismatch"), "error");
           return;
         }
         var strength = evaluatePasswordStrength(password);
         if (strength.level === "weak" || strength.level === "empty") {
-          setStatus("La contraseña es demasiado débil.", "error");
+          setStatus(i18n.t("errPasswordWeak"), "error");
           return;
         }
 
         submitBtn.disabled = true;
-        setStatus("Guardando contraseña…", "loading");
+        setStatus(i18n.t("saving"), "loading");
 
         try {
           var res = await fetch(API_BASE + "/api/auth/reset-password", {
@@ -183,23 +202,19 @@
           var data = await res.json().catch(function () { return {}; });
 
           if (!res.ok || data.status === "KO") {
-            var msg = data.mensaje || data.message || "No se pudo restablecer la contraseña.";
-            if (data.code === "TOKEN_EXPIRED") {
-              msg = "El enlace ha caducado. Solicita uno nuevo.";
-            } else if (data.code === "TOKEN_USED") {
-              msg = "Este enlace ya se utilizó. Solicita uno nuevo si lo necesitas.";
-            } else if (data.code === "INVALID_TOKEN") {
-              msg = "Enlace no válido. Solicita un nuevo enlace de recuperación.";
-            }
+            var msg = data.mensaje || data.message || i18n.t("errGeneric");
+            if (data.code === "TOKEN_EXPIRED") msg = i18n.t("errTokenExpired");
+            else if (data.code === "TOKEN_USED") msg = i18n.t("errTokenUsed");
+            else if (data.code === "INVALID_TOKEN") msg = i18n.t("errTokenInvalid");
             setStatus(msg, "error");
             return;
           }
 
           resetForm.style.display = "none";
-          successMessage.textContent = data.mensaje || "Contraseña actualizada correctamente";
+          successMessage.textContent = i18n.lang() === "es" && data.mensaje ? data.mensaje : i18n.t("successDefault");
           successPanel.style.display = "block";
         } catch (err) {
-          setStatus("Error de conexión. Inténtalo de nuevo.", "error");
+          setStatus(i18n.t("errConnection"), "error");
         } finally {
           submitBtn.disabled = false;
         }
