@@ -14,10 +14,14 @@
     body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#f6f9ff}
     a{text-decoration:none;color:inherit}
     .wrap{width:min(640px,calc(100% - 32px));margin:0 auto}
-    .top{padding:22px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .top{padding:22px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+    .top-actions{display:flex;align-items:center;gap:12px;flex-wrap:wrap}
     .brand{font-weight:950;font-size:22px;letter-spacing:-.03em}
     .brand span{color:var(--blue)}
     .back{font-weight:800;font-size:14px;color:#2f62ff}
+    .lang-switch{display:inline-flex;align-items:center;gap:8px;height:36px;padding:0 8px 0 10px;background:#fff;border:1px solid var(--line);border-radius:999px}
+    .lang-switch label{font-size:11px;color:var(--muted);font-weight:800;letter-spacing:.05em;text-transform:uppercase}
+    .lang-switch select{appearance:none;height:28px;background:#fff;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:0 28px 0 10px;font-weight:800;font-size:13px;cursor:pointer}
     .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-soft);margin:10px 0 40px}
     h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
     .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
@@ -31,8 +35,6 @@
     .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px 18px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft);cursor:pointer;font:inherit}
     .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff;width:100%}
     .btn:disabled{opacity:.65;cursor:not-allowed}
-    .hint{margin-top:14px;font-size:14px;color:var(--muted);line-height:1.5}
-    .hint a{color:#2f62ff;font-weight:700}
     #successPanel{display:none;margin-top:8px;padding:16px 18px;border-radius:14px;border:1px solid #a7f3d0;background:#ecfdf5;color:#065f46;font-weight:700;line-height:1.5}
   </style>
 </head>
@@ -40,26 +42,36 @@
   <div class="wrap">
     <div class="top">
       <a class="brand" href="./index.html">Lens<span>Rewards</span></a>
-      <a class="back" href="./primeros-pasos.html">← Volver</a>
+      <div class="top-actions">
+        <div class="lang-switch">
+          <label for="page-lang" data-i18n="langLabel">Idioma</label>
+          <select id="page-lang" aria-label="Language">
+            <option value="es">Español</option>
+            <option value="en">English</option>
+          </select>
+        </div>
+        <a class="back" data-i18n="back" data-i18n-href="back" href="./primeros-pasos.html">← Volver</a>
+      </div>
     </div>
     <main class="card">
-      <h1>He olvidado mi contraseña</h1>
-      <p class="sub">Introduce el correo con el que te registraste. Si existe una cuenta, te enviaremos un enlace para elegir una nueva contraseña.</p>
+      <h1 data-i18n="h1">He olvidado mi contraseña</h1>
+      <p class="sub" data-i18n="sub">Introduce el correo con el que te registraste. Si existe una cuenta, te enviaremos un enlace para elegir una nueva contraseña.</p>
       <div id="successPanel" role="status"></div>
       <form id="forgotForm" novalidate>
         <div class="field">
-          <label for="email">Correo electrónico</label>
-          <input id="email" type="email" autocomplete="email" placeholder="tu@email.com" required />
+          <label for="email" data-i18n="emailLabel">Correo electrónico</label>
+          <input id="email" type="email" autocomplete="email" data-i18n-placeholder="emailPlaceholder" placeholder="tu@email.com" required />
         </div>
         <div id="status" class="status"></div>
-        <button id="submitBtn" type="submit" class="btn btn-primary">Enviar enlace de recuperación</button>
+        <button id="submitBtn" type="submit" class="btn btn-primary" data-i18n="submitBtn">Enviar enlace de recuperación</button>
       </form>
-      <p class="hint">¿Recuerdas tu contraseña? <a href="./primeros-pasos.html">Volver a primeros pasos</a> · <a href="./registro.html">Crear cuenta</a></p>
     </main>
   </div>
+  <script src="config/auth-pages-i18n.js"></script>
   <script>
     (function () {
       var API_BASE = "https://api.lensrewards.com";
+      var i18n = LensAuthI18n.init({ page: "forgot", basePath: "./" });
       var form = document.getElementById("forgotForm");
       var emailInput = document.getElementById("email");
       var statusEl = document.getElementById("status");
@@ -77,12 +89,12 @@
         e.preventDefault();
         var email = (emailInput.value || "").trim();
         if (!email) {
-          setStatus("Introduce tu correo electrónico.", "error");
+          setStatus(i18n.t("errEmailRequired"), "error");
           return;
         }
 
         submitBtn.disabled = true;
-        setStatus("Enviando solicitud…", "loading");
+        setStatus(i18n.t("sending"), "loading");
         successPanel.style.display = "none";
 
         try {
@@ -94,21 +106,22 @@
           var data = await res.json().catch(function () { return {}; });
 
           if (res.status === 404 && data.code === "EMAIL_NOT_FOUND") {
-            setStatus(data.mensaje || "No hay ninguna cuenta registrada con ese email", "error");
+            setStatus(i18n.t("errEmailNotFound"), "error");
             return;
           }
 
           if (!res.ok || data.status === "KO") {
-            setStatus(data.mensaje || data.message || "No se pudo procesar la solicitud.", "error");
+            var errMsg = i18n.lang() === "es" && data.mensaje ? data.mensaje : (data.message || i18n.t("errGeneric"));
+            setStatus(errMsg, "error");
             return;
           }
 
           setStatus("", "");
-          successPanel.textContent = data.mensaje || "Te hemos enviado un email con instrucciones para restablecer tu contraseña";
+          successPanel.textContent = i18n.lang() === "es" && data.mensaje ? data.mensaje : i18n.t("successDefault");
           successPanel.style.display = "block";
           form.style.display = "none";
         } catch (err) {
-          setStatus("Error de conexión. Inténtalo de nuevo.", "error");
+          setStatus(i18n.t("errConnection"), "error");
         } finally {
           submitBtn.disabled = false;
         }
