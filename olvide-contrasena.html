@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LensRewards - He olvidado mi contraseña</title>
+  <meta name="description" content="Recupera el acceso a tu cuenta de LensRewards." />
+  <style>
+    :root{
+      --blue:#2f62ff; --ink:#081329; --muted:#64708a; --line:#e7ebf3;
+      --shadow-soft:0 14px 35px rgba(15,25,50,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--ink);background:#f6f9ff}
+    a{text-decoration:none;color:inherit}
+    .wrap{width:min(640px,calc(100% - 32px));margin:0 auto}
+    .top{padding:22px 0 10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+    .brand{font-weight:950;font-size:22px;letter-spacing:-.03em}
+    .brand span{color:var(--blue)}
+    .back{font-weight:800;font-size:14px;color:#2f62ff}
+    .card{background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-soft);margin:10px 0 40px}
+    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
+    .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
+    .field{display:grid;gap:6px;margin-bottom:14px}
+    .field label{font-size:13px;font-weight:800;color:#253657}
+    .field input{height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;color:#1c2c4b;background:#fff;width:100%}
+    .status{min-height:22px;font-size:14px;font-weight:700;margin-bottom:12px}
+    .status.error{color:#dc2626}
+    .status.ok{color:#059669}
+    .status.loading{color:#2f62ff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px 18px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft);cursor:pointer;font:inherit}
+    .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff;width:100%}
+    .btn:disabled{opacity:.65;cursor:not-allowed}
+    .hint{margin-top:14px;font-size:14px;color:var(--muted);line-height:1.5}
+    .hint a{color:#2f62ff;font-weight:700}
+    #successPanel{display:none;margin-top:8px;padding:16px 18px;border-radius:14px;border:1px solid #a7f3d0;background:#ecfdf5;color:#065f46;font-weight:700;line-height:1.5}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="top">
+      <a class="brand" href="./index.html">Lens<span>Rewards</span></a>
+      <a class="back" href="./primeros-pasos.html">← Volver</a>
+    </div>
+    <main class="card">
+      <h1>He olvidado mi contraseña</h1>
+      <p class="sub">Introduce el correo con el que te registraste. Si existe una cuenta, te enviaremos un enlace para elegir una nueva contraseña.</p>
+      <div id="successPanel" role="status"></div>
+      <form id="forgotForm" novalidate>
+        <div class="field">
+          <label for="email">Correo electrónico</label>
+          <input id="email" type="email" autocomplete="email" placeholder="tu@email.com" required />
+        </div>
+        <div id="status" class="status"></div>
+        <button id="submitBtn" type="submit" class="btn btn-primary">Enviar enlace de recuperación</button>
+      </form>
+      <p class="hint">¿Recuerdas tu contraseña? <a href="./primeros-pasos.html">Volver a primeros pasos</a> · <a href="./registro.html">Crear cuenta</a></p>
+    </main>
+  </div>
+  <script>
+    (function () {
+      var API_BASE = "https://api.lensrewards.com";
+      var form = document.getElementById("forgotForm");
+      var emailInput = document.getElementById("email");
+      var statusEl = document.getElementById("status");
+      var submitBtn = document.getElementById("submitBtn");
+      var successPanel = document.getElementById("successPanel");
+
+      function setStatus(message, type) {
+        statusEl.textContent = message || "";
+        statusEl.className = "status " + (type || "");
+      }
+
+      if (!form) return;
+
+      form.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var email = (emailInput.value || "").trim();
+        if (!email) {
+          setStatus("Introduce tu correo electrónico.", "error");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setStatus("Enviando solicitud…", "loading");
+        successPanel.style.display = "none";
+
+        try {
+          var res = await fetch(API_BASE + "/api/auth/forgot-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email })
+          });
+          var data = await res.json().catch(function () { return {}; });
+
+          if (res.status === 404 && data.code === "EMAIL_NOT_FOUND") {
+            setStatus(data.mensaje || "No hay ninguna cuenta registrada con ese email", "error");
+            return;
+          }
+
+          if (!res.ok || data.status === "KO") {
+            setStatus(data.mensaje || data.message || "No se pudo procesar la solicitud.", "error");
+            return;
+          }
+
+          setStatus("", "");
+          successPanel.textContent = data.mensaje || "Te hemos enviado un email con instrucciones para restablecer tu contraseña";
+          successPanel.style.display = "block";
+          form.style.display = "none";
+        } catch (err) {
+          setStatus("Error de conexión. Inténtalo de nuevo.", "error");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+  <script defer src="config/apply-site-links.js"></script>
+</body>
+</html>

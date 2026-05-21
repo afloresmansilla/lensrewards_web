@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>LensRewards - Nueva contraseña</title>
+  <meta name="description" content="Establece una nueva contraseña para tu cuenta de LensRewards." />
+  <style>
+    :root{
+      --blue:#2f62ff; --ink:#081329; --muted:#64708a; --line:#e7ebf3;
+      --shadow-soft:0 14px 35px rgba(15,25,50,.10);
+    }
+    *{box-sizing:border-box}
+    body{margin:0;min-height:100dvh;display:grid;place-items:center;padding:20px;background:#f6f9ff;color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+    a{text-decoration:none;color:inherit}
+    .card{width:min(640px,100%);background:#fff;border:1px solid var(--line);border-radius:22px;padding:26px;box-shadow:var(--shadow-soft)}
+    .top{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:14px}
+    .brand{font-weight:950;font-size:22px;letter-spacing:-.03em}
+    .brand span{color:var(--blue)}
+    .back{font-weight:800;font-size:14px;color:#2f62ff}
+    h1{margin:0 0 8px;font-size:30px;letter-spacing:-.03em}
+    .sub{margin:0 0 18px;color:var(--muted);line-height:1.55}
+    .field{display:grid;gap:6px;margin-bottom:12px}
+    .field label{font-size:13px;font-weight:800;color:#253657}
+    .field input{height:44px;border:1px solid var(--line);border-radius:12px;padding:0 12px;font:inherit;color:#1c2c4b;background:#fff;width:100%}
+    .password-meter{margin-top:6px}
+    .password-meter-track{height:6px;border-radius:999px;background:#e8eefb;overflow:hidden}
+    .password-meter-bar{height:100%;width:0%;border-radius:999px;background:transparent;transition:width .22s ease,background-color .22s ease}
+    .password-meter-text{margin-top:6px;font-size:12px;font-weight:700;color:#5f6d88}
+    .status{min-height:22px;font-size:14px;font-weight:700;margin-bottom:12px}
+    .status.error{color:#dc2626}
+    .status.ok{color:#059669}
+    .status.loading{color:#2f62ff}
+    .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;border-radius:14px;padding:15px 18px;font-weight:900;border:1px solid transparent;box-shadow:var(--shadow-soft);cursor:pointer;font:inherit}
+    .btn-primary{background:linear-gradient(135deg,#2861ff,#5d7cff);color:#fff;width:100%}
+    .btn:disabled{opacity:.65;cursor:not-allowed}
+    .token-error{margin:0;padding:16px 18px;border-radius:14px;border:1px solid #fecaca;background:#fef2f2;color:#991b1b;font-weight:700;line-height:1.5}
+    .links{margin-top:16px;display:flex;gap:10px;flex-wrap:wrap}
+    .links a{font-weight:800;font-size:14px;color:#2f62ff}
+  </style>
+</head>
+<body>
+  <main class="card">
+    <div class="top">
+      <a class="brand" href="../index.html">Lens<span>Rewards</span></a>
+      <a class="back" href="../olvide-contrasena.html">Solicitar nuevo enlace</a>
+    </div>
+    <h1>Nueva contraseña</h1>
+    <p class="sub">Elige una contraseña segura. Después podrás iniciar sesión en la extensión con tu correo y la nueva contraseña.</p>
+
+    <p id="tokenError" class="token-error" style="display:none" role="alert"></p>
+
+    <form id="resetForm" novalidate style="display:none">
+      <div class="field">
+        <label for="password">Nueva contraseña</label>
+        <input id="password" type="password" autocomplete="new-password" placeholder="Mínimo 8 caracteres" />
+        <div class="password-meter" aria-live="polite">
+          <div class="password-meter-track"><div id="passwordStrengthBar" class="password-meter-bar"></div></div>
+          <div id="passwordStrengthText" class="password-meter-text">Seguridad: —</div>
+        </div>
+      </div>
+      <div class="field">
+        <label for="passwordConfirm">Repetir contraseña</label>
+        <input id="passwordConfirm" type="password" autocomplete="new-password" placeholder="Repite la contraseña" />
+      </div>
+      <div id="status" class="status"></div>
+      <button id="submitBtn" type="submit" class="btn btn-primary">Guardar contraseña</button>
+    </form>
+
+    <div id="successPanel" style="display:none">
+      <p class="status ok" id="successMessage"></p>
+      <div class="links">
+        <a href="../primeros-pasos.html?from=password-reset">Ir a primeros pasos</a>
+        <a href="../index.html">Volver al inicio</a>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    (function () {
+      var API_BASE = "https://api.lensrewards.com";
+      var params = new URLSearchParams(window.location.search);
+      var token = (params.get("token") || "").trim();
+
+      var tokenErrorEl = document.getElementById("tokenError");
+      var resetForm = document.getElementById("resetForm");
+      var successPanel = document.getElementById("successPanel");
+      var successMessage = document.getElementById("successMessage");
+      var statusEl = document.getElementById("status");
+      var submitBtn = document.getElementById("submitBtn");
+      var passwordInput = document.getElementById("password");
+      var passwordConfirmInput = document.getElementById("passwordConfirm");
+      var passwordStrengthBar = document.getElementById("passwordStrengthBar");
+      var passwordStrengthText = document.getElementById("passwordStrengthText");
+
+      function setStatus(message, type) {
+        statusEl.textContent = message || "";
+        statusEl.className = "status " + (type || "");
+      }
+
+      function showTokenError(message) {
+        tokenErrorEl.textContent = message;
+        tokenErrorEl.style.display = "block";
+        resetForm.style.display = "none";
+      }
+
+      function evaluatePasswordStrength(password) {
+        var p = String(password || "");
+        var score = 0;
+        if (p.length >= 8) score += 1;
+        if (/[a-z]/.test(p)) score += 1;
+        if (/[A-Z]/.test(p)) score += 1;
+        if (/\d/.test(p)) score += 1;
+        if (/[^A-Za-z0-9]/.test(p)) score += 1;
+        if (p.length >= 12) score += 1;
+        if (p.length === 0) return { level: "empty", score: score };
+        if (score <= 2) return { level: "weak", score: score };
+        if (score <= 4) return { level: "medium", score: score };
+        return { level: "strong", score: score };
+      }
+
+      function updatePasswordMeter() {
+        var level = evaluatePasswordStrength(passwordInput && passwordInput.value).level;
+        if (!passwordStrengthBar || !passwordStrengthText) return;
+        var pct = "0%";
+        var bg = "transparent";
+        var label = "Seguridad: —";
+        if (level === "weak") {
+          pct = "33%";
+          bg = "#f97316";
+          label = "Seguridad: baja";
+        } else if (level === "medium") {
+          pct = "66%";
+          bg = "#f59e0b";
+          label = "Seguridad: media";
+        } else if (level === "strong") {
+          pct = "100%";
+          bg = "#10b981";
+          label = "Seguridad: alta";
+        }
+        passwordStrengthBar.style.width = pct;
+        passwordStrengthBar.style.backgroundColor = bg;
+        passwordStrengthText.textContent = label;
+      }
+
+      if (!token) {
+        showTokenError("Enlace no válido: falta el token de recuperación. Solicita un nuevo enlace desde la página de recuperación.");
+        return;
+      }
+
+      resetForm.style.display = "block";
+      updatePasswordMeter();
+      if (passwordInput) passwordInput.addEventListener("input", updatePasswordMeter);
+
+      resetForm.addEventListener("submit", async function (e) {
+        e.preventDefault();
+        var password = passwordInput.value;
+        var passwordConfirm = passwordConfirmInput.value;
+
+        if (!password || password.length < 8) {
+          setStatus("La contraseña debe tener mínimo 8 caracteres.", "error");
+          return;
+        }
+        if (password !== passwordConfirm) {
+          setStatus("Las contraseñas no coinciden.", "error");
+          return;
+        }
+        var strength = evaluatePasswordStrength(password);
+        if (strength.level === "weak" || strength.level === "empty") {
+          setStatus("La contraseña es demasiado débil.", "error");
+          return;
+        }
+
+        submitBtn.disabled = true;
+        setStatus("Guardando contraseña…", "loading");
+
+        try {
+          var res = await fetch(API_BASE + "/api/auth/reset-password", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ token: token, password: password })
+          });
+          var data = await res.json().catch(function () { return {}; });
+
+          if (!res.ok || data.status === "KO") {
+            var msg = data.mensaje || data.message || "No se pudo restablecer la contraseña.";
+            if (data.code === "TOKEN_EXPIRED") {
+              msg = "El enlace ha caducado. Solicita uno nuevo.";
+            } else if (data.code === "TOKEN_USED") {
+              msg = "Este enlace ya se utilizó. Solicita uno nuevo si lo necesitas.";
+            } else if (data.code === "INVALID_TOKEN") {
+              msg = "Enlace no válido. Solicita un nuevo enlace de recuperación.";
+            }
+            setStatus(msg, "error");
+            return;
+          }
+
+          resetForm.style.display = "none";
+          successMessage.textContent = data.mensaje || "Contraseña actualizada correctamente";
+          successPanel.style.display = "block";
+        } catch (err) {
+          setStatus("Error de conexión. Inténtalo de nuevo.", "error");
+        } finally {
+          submitBtn.disabled = false;
+        }
+      });
+    })();
+  </script>
+  <script defer src="../config/apply-site-links.js"></script>
+</body>
+</html>
