@@ -1,10 +1,10 @@
 /**
- * Traducciones ES/EN para olvide-contrasena y reset-password.
+ * Traducciones ES/EN/PT para olvide-contrasena y reset-password.
  * Uso: LensAuthI18n.init({ page: "forgot"|"reset", basePath: "./" o "../" })
  */
 (function (global) {
   var STORAGE_KEY = "lr_lang";
-  var SUPPORTED = ["es", "en"];
+  var SUPPORTED = ["es", "en", "pt"];
 
   var STRINGS = {
     es: {
@@ -12,6 +12,7 @@
         langLabel: "Idioma",
         langEs: "Español",
         langEn: "English",
+        langPt: "Português",
       },
       forgot: {
         metaTitle: "LensRewards - He olvidado mi contraseña",
@@ -64,6 +65,7 @@
         langLabel: "Language",
         langEs: "Español",
         langEn: "English",
+        langPt: "Português",
       },
       forgot: {
         metaTitle: "LensRewards - Forgot password",
@@ -111,6 +113,59 @@
         linkHome: "Back to home",
       },
     },
+    pt: {
+      common: {
+        langLabel: "Idioma",
+        langEs: "Español",
+        langEn: "English",
+        langPt: "Português",
+      },
+      forgot: {
+        metaTitle: "LensRewards - Esqueci-me da palavra-passe",
+        metaDescription: "Recupere o acesso à sua conta LensRewards.",
+        back: "← Voltar",
+        h1: "Esqueci-me da palavra-passe",
+        sub: "Introduza o email com que se registou. Se existir uma conta, enviaremos um link para escolher uma nova palavra-passe.",
+        emailLabel: "Endereço de email",
+        emailPlaceholder: "seu@email.com",
+        submitBtn: "Enviar link de recuperação",
+        errEmailRequired: "Introduza o seu email.",
+        errConnection: "Erro de ligação. Tente novamente.",
+        errGeneric: "Não foi possível processar o pedido.",
+        errEmailNotFound: "Não existe nenhuma conta registada com esse email",
+        sending: "A enviar pedido…",
+        successDefault: "Enviámos um email com instruções para repor a sua palavra-passe",
+      },
+      reset: {
+        metaTitle: "LensRewards - Nova palavra-passe",
+        metaDescription: "Defina uma nova palavra-passe para a sua conta LensRewards.",
+        back: "Pedir novo link",
+        h1: "Nova palavra-passe",
+        sub: "Escolha uma palavra-passe segura. Depois pode iniciar sessão na extensão com o seu email e a nova palavra-passe.",
+        passwordLabel: "Nova palavra-passe",
+        passwordPlaceholder: "Mínimo 8 caracteres",
+        confirmLabel: "Repetir palavra-passe",
+        confirmPlaceholder: "Repita a palavra-passe",
+        strengthEmpty: "Segurança: —",
+        strengthWeak: "Segurança: fraca",
+        strengthMedium: "Segurança: média",
+        strengthStrong: "Segurança: alta",
+        submitBtn: "Guardar palavra-passe",
+        errTokenMissing: "Link inválido: falta o token de recuperação. Peça um novo link na página de recuperação.",
+        errPasswordMin: "A palavra-passe deve ter no mínimo 8 caracteres.",
+        errPasswordMismatch: "As palavras-passe não coincidem.",
+        errPasswordWeak: "A palavra-passe é demasiado fraca.",
+        errTokenExpired: "O link expirou. Peça um novo.",
+        errTokenUsed: "Este link já foi utilizado. Peça um novo se precisar.",
+        errTokenInvalid: "Link inválido. Peça um novo link de recuperação.",
+        errConnection: "Erro de ligação. Tente novamente.",
+        errGeneric: "Não foi possível repor a palavra-passe.",
+        saving: "A guardar palavra-passe…",
+        successDefault: "Palavra-passe atualizada com sucesso",
+        linkFirstSteps: "Ir aos primeiros passos",
+        linkHome: "Voltar ao início",
+      },
+    },
   };
 
   var state = { lang: "es", page: "forgot", basePath: "./" };
@@ -130,7 +185,9 @@
       if (stored) return normalizeLang(stored);
     } catch (e2) {}
     var nav = (navigator.language || navigator.userLanguage || "es").toLowerCase();
-    return nav.indexOf("en") === 0 ? "en" : "es";
+    if (nav.indexOf("en") === 0) return "en";
+    if (nav.indexOf("pt") === 0) return "pt";
+    return "es";
   }
 
   function lookup(key) {
