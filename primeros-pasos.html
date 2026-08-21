@@ -180,7 +180,7 @@
     .btn-primary:hover{box-shadow:0 14px 34px rgba(47,98,255,.42)}
     .btn-secondary{background:#fff;border-color:#dbe6ff;color:#2f62ff}
     .btn-secondary:hover{border-color:#b8c9ff;background:#fafbff}
-    .mid-install{display:flex;justify-content:center;margin:6px 0 24px}
+    .mid-install{display:flex;justify-content:center;margin:18px 0 24px}
     .mid-install .btn{min-width:min(100%,300px)}
     .video-card .step-num--play{
       background:linear-gradient(135deg,#0f172a,#334155);
@@ -238,14 +238,25 @@
         <p id="fromRegBanner" class="banner" role="status">Cuenta creada correctamente. Debes verificar tu correo electrónico: busca el mensaje en tu bandeja de entrada y también en la carpeta de spam o correo no deseado.</p>
         <p id="fromEmailVerifiedBanner" class="banner" role="status">Tu cuenta ha sido validada correctamente. Ya puedes iniciar sesión y seguir los pasos que aparecen a continuación para <a class="inline-ext-link" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">instalar la extensión</a>.</p>
 
-        <section class="welcome" aria-labelledby="welcome-title">
-          <h2 id="welcome-title">¡Te damos la bienvenida!</h2>
-          <p>A partir de ahora formas parte de nuestra red de colaboradores que ayudan a generar datos reales de mercado mientras completan misiones online.</p>
-        </section>
+        <article class="step-card video-card" data-site-video-block="installExtension" data-video-title="Cómo instalar y configurar la extensión LensRewards" hidden>
+          <div class="step-head">
+            <span class="step-num step-num--play" aria-hidden="true">▶</span>
+            <h3 id="video-install-title">Vídeo: instalar y configurar la extensión</h3>
+          </div>
+          <div class="step-body">
+            <p>Empieza por este vídeo: instalación en Chrome, fijar el icono e iniciar sesión con tu cuenta.</p>
+            <div class="guide-video" data-site-video></div>
+          </div>
+        </article>
 
         <div class="mid-install">
           <a class="btn btn-primary" data-site-link="chromeExtensionInstall" href="#" title="Abrir la extensión en Chrome Web Store">Instalar la extensión</a>
         </div>
+
+        <section class="welcome" aria-labelledby="welcome-title">
+          <h2 id="welcome-title">¡Te damos la bienvenida!</h2>
+          <p>A partir de ahora formas parte de nuestra red de colaboradores que ayudan a generar datos reales de mercado mientras completan misiones online.</p>
+        </section>
 
         <div class="steps-stack">
           <article class="step-card" aria-labelledby="step1-title">
@@ -289,17 +300,6 @@
                 <li>Accede a tu panel de misiones disponibles.</li>
               </ul>
               <p style="margin:12px 0 0;font-size:15px;color:var(--muted)">¿No recuerdas tu contraseña? <a class="inline-ext-link" href="./olvide-contrasena.html">Recupérala aquí</a>.</p>
-            </div>
-          </article>
-
-          <article class="step-card video-card" data-site-video-block="installExtension" data-video-title="Cómo instalar y configurar la extensión LensRewards" hidden>
-            <div class="step-head">
-              <span class="step-num step-num--play" aria-hidden="true">▶</span>
-              <h3 id="video-install-title">Vídeo: instalar y configurar la extensión</h3>
-            </div>
-            <div class="step-body">
-              <p>Sigue el proceso en vídeo: instalación en Chrome, fijar el icono e iniciar sesión con tu cuenta.</p>
-              <div class="guide-video" data-site-video></div>
             </div>
           </article>
 
