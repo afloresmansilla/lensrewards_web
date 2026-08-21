@@ -1,6 +1,6 @@
 {
-  "_readme": "Referencias estáticas de la web pública. Para cambiar el enlace de la extensión, edita chromeExtension.id (ID de Chrome Web Store).",
-  "version": 2,
+  "_readme": "Referencias estáticas de la web pública. Para cambiar el enlace de la extensión, edita chromeExtension.id. Para los vídeos de primeros-pasos.html, pega en videos.installExtension y videos.withdrawRewards un enlace de YouTube, Vimeo o un MP4 (por ejemplo assets/videos/guia.mp4). Si el valor está vacío, el reproductor no se muestra.",
+  "version": 3,
   "chromeExtension": {
     "id": "pkfcmneineoknlgdhoghjgfpnllokflk",
     "slug": "lensrewards"
@@ -9,5 +9,9 @@
     "supportMailto": "mailto:soporte@lensrewards.com",
     "apiBase": "https://api.lensrewards.com",
     "appDashboard": "https://app.lensrewards.com/dashboard"
+  },
+  "videos": {
+    "installExtension": "https://s3-videos-lensrewards.s3.us-east-1.amazonaws.com/tutoriales/es/instalar-configurar-extension.mp4",
+    "withdrawRewards": "https://s3-videos-lensrewards.s3.us-east-1.amazonaws.com/tutoriales/es/retirar-recompensas.mp4"
   }
 }
