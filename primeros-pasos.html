@@ -182,6 +182,31 @@
     .btn-secondary:hover{border-color:#b8c9ff;background:#fafbff}
     .mid-install{display:flex;justify-content:center;margin:6px 0 24px}
     .mid-install .btn{min-width:min(100%,300px)}
+    .video-card .step-num--play{
+      background:linear-gradient(135deg,#0f172a,#334155);
+      box-shadow:0 6px 16px rgba(15,23,42,.28);
+      font-size:12px;
+    }
+    .guide-video{
+      margin-top:14px;
+      border-radius:16px;
+      overflow:hidden;
+      background:#0b1224;
+      border:1px solid rgba(15,31,80,.12);
+      box-shadow:0 10px 28px rgba(15,31,80,.08);
+    }
+    .guide-video-frame{
+      position:relative;
+      width:100%;
+      padding-bottom:56.25%;
+      height:0;
+    }
+    .guide-video-frame iframe,
+    .guide-video-frame video{
+      position:absolute;inset:0;width:100%;height:100%;border:0;
+      background:#0b1224;
+    }
+    .guide-video-frame video{object-fit:contain}
     @media(max-width:600px){
       .mid-install .btn{width:100%}
       .hero{padding:22px 16px 64px}
@@ -267,6 +292,17 @@
             </div>
           </article>
 
+          <article class="step-card video-card" data-site-video-block="installExtension" data-video-title="Cómo instalar y configurar la extensión LensRewards" hidden>
+            <div class="step-head">
+              <span class="step-num step-num--play" aria-hidden="true">▶</span>
+              <h3 id="video-install-title">Vídeo: instalar y configurar la extensión</h3>
+            </div>
+            <div class="step-body">
+              <p>Sigue el proceso en vídeo: instalación en Chrome, fijar el icono e iniciar sesión con tu cuenta.</p>
+              <div class="guide-video" data-site-video></div>
+            </div>
+          </article>
+
           <section class="next-block" aria-labelledby="next-title">
             <h3 id="next-title">¿Qué viene después?</h3>
             <p>Una vez dentro, podrás:</p>
@@ -277,6 +313,25 @@
             </ul>
             <p class="foot-note">Tu saldo se irá acumulando en tu monedero interno y podrás retirarlo cuando alcances el mínimo establecido para la forma de retiro que elijas.</p>
           </section>
+
+          <article class="step-card" aria-labelledby="step3-title">
+            <div class="step-head">
+              <span class="step-num" aria-hidden="true">3</span>
+              <h3 id="step3-title">Retirar las recompensas</h3>
+            </div>
+            <div class="step-body">
+              <p>Cuando tu saldo alcance el mínimo del método que elijas, podrás canjearlo desde tu panel. Las formas de retiro son <strong>USDT</strong>, <strong>tarjetas de Amazon</strong> y <strong>PayPal</strong>.</p>
+              <ul class="checklist checklist--emoji">
+                <li>Entra en tu panel y abre la sección de recompensas o retiros.</li>
+                <li>Elige el método y sigue las indicaciones para completar la solicitud.</li>
+                <li>El importe mínimo puede ser distinto según el método de retiro.</li>
+              </ul>
+              <div class="video-card" data-site-video-block="withdrawRewards" data-video-title="Cómo retirar las recompensas en LensRewards" hidden>
+                <p style="margin:14px 0 0">Mira este vídeo para ver cómo solicitar el retiro paso a paso.</p>
+                <div class="guide-video" data-site-video></div>
+              </div>
+            </div>
+          </article>
         </div>
 
         <p id="primerosMailNote" class="mail-note">Debes verificar tu correo electrónico. Si no ves el mensaje en la bandeja de entrada, revisa también la carpeta de spam o correo no deseado.</p>
