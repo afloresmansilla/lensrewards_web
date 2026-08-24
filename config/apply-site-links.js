@@ -53,6 +53,79 @@
     return { type: "video", src: url };
   }
 
+  function sendGaEvent(name, params) {
+    window.dataLayer = window.dataLayer || [];
+    if (typeof window.gtag === "function") {
+      window.gtag("event", name, params);
+      return;
+    }
+    window.dataLayer.push(["event", name, params]);
+  }
+
+  function trackExtensionInstallClick(el, url) {
+    if (!el || el.getAttribute("data-ga-click-tracked")) return;
+    el.setAttribute("data-ga-click-tracked", "1");
+    el.addEventListener("click", function () {
+      var text = (el.textContent || "").replace(/\s+/g, " ").trim();
+      var isButton = el.classList.contains("btn") || el.classList.contains("ghost");
+      sendGaEvent("add_to_chrome", {
+        link_text: text,
+        link_url: url || el.getAttribute("href") || "",
+        link_type: isButton ? "button" : "link",
+        page_path: window.location.pathname
+      });
+    });
+  }
+
+  function trackHtml5Video(video, meta) {
+    if (!video || video.getAttribute("data-ga-video-tracked")) return;
+    video.setAttribute("data-ga-video-tracked", "1");
+
+    var started = false;
+    var sentProgress = {};
+
+    function baseParams() {
+      var duration = Math.round(video.duration || 0);
+      var current = Math.round(video.currentTime || 0);
+      var percent = duration > 0 ? Math.round((current / duration) * 100) : 0;
+      return {
+        video_title: meta.title,
+        video_url: meta.url,
+        video_id: meta.id,
+        video_provider: "html5",
+        video_duration: duration,
+        video_current_time: current,
+        video_percent: percent
+      };
+    }
+
+    video.addEventListener("play", function () {
+      if (started) return;
+      started = true;
+      sendGaEvent("video_start", baseParams());
+    });
+
+    video.addEventListener("timeupdate", function () {
+      var duration = video.duration || 0;
+      if (!duration || duration < 1) return;
+      var percent = Math.floor(((video.currentTime || 0) / duration) * 100);
+      [10, 25, 50, 75].forEach(function (mark) {
+        if (percent >= mark && !sentProgress[mark]) {
+          sentProgress[mark] = true;
+          var params = baseParams();
+          params.video_percent = mark;
+          sendGaEvent("video_progress", params);
+        }
+      });
+    });
+
+    video.addEventListener("ended", function () {
+      var params = baseParams();
+      params.video_percent = 100;
+      sendGaEvent("video_complete", params);
+    });
+  }
+
   function mountVideo(key, url) {
     var resolved = resolveVideo(url);
     document.querySelectorAll('[data-site-video-block="' + key + '"]').forEach(function (block) {
@@ -65,10 +138,11 @@
       host.replaceChildren();
       var frame = document.createElement("div");
       frame.className = "guide-video-frame";
+      var title = block.getAttribute("data-video-title") || "Vídeo";
       if (resolved.type === "iframe") {
         var iframe = document.createElement("iframe");
         iframe.src = resolved.src;
-        iframe.title = block.getAttribute("data-video-title") || "Vídeo";
+        iframe.title = title;
         iframe.setAttribute("allowfullscreen", "");
         iframe.setAttribute(
           "allow",
@@ -84,6 +158,7 @@
         video.setAttribute("playsinline", "");
         video.setAttribute("preload", "metadata");
         frame.appendChild(video);
+        trackHtml5Video(video, { id: key, title: title, url: resolved.src });
       }
       host.appendChild(frame);
       block.removeAttribute("hidden");
@@ -102,6 +177,7 @@
         el.setAttribute("target", "_blank");
         el.setAttribute("rel", "noopener noreferrer");
       }
+      trackExtensionInstallClick(el, extensionInstallUrl);
     });
     document.querySelectorAll('[data-site-link="supportMailto"]').forEach(function (el) {
       var u = urls.supportMailto;
